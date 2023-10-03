@@ -9,6 +9,16 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/compensation-device-service" />
+            <option value="$PROJECT_DIR$/config-service" />
+            <option value="$PROJECT_DIR$/full-information-service" />
+            <option value="$PROJECT_DIR$/gateway" />
+            <option value="$PROJECT_DIR$/high-volt-cables-service" />
+            <option value="$PROJECT_DIR$/lighting-information-service" />
+            <option value="$PROJECT_DIR$/power-transformers-service" />
+            <option value="$PROJECT_DIR$/protective-equipment-service" />
+            <option value="$PROJECT_DIR$/registry" />
+            <option value="$PROJECT_DIR$/start-information-service" />
           </set>
         </option>
       </GradleProjectSettings>

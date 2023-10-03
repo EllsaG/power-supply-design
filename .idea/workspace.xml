@@ -4,7 +4,34 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3ddd9d4e-c18d-44ec-9235-3aad9da68c3f" name="Changes" comment="" />
+    <list default="true" id="3ddd9d4e-c18d-44ec-9235-3aad9da68c3f" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/compensation-device-service/build.gradle" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/compensation-device-service/src/main/java/CompensationDeviceApplication.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/config-service/build.gradle" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/config-service/src/main/java/ConfigApplication.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/full-information-service/build.gradle" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/full-information-service/src/main/java/FullInformationApplication.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gateway/build.gradle" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gateway/src/main/java/GatewayApplication.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/high-volt-cables-service/build.gradle" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/high-volt-cables-service/src/main/java/HighVoltCablesApplication.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lighting-information-service/build.gradle" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lighting-information-service/src/main/java/LightInformationApplication.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/power-transformers-service/build.gradle" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/power-transformers-service/src/main/java/PowerTransformerApplication.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/protective-equipment-service/build.gradle" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/protective-equipment-service/src/main/java/ProtectiveEquipmentApplication.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/registry/build.gradle" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/registry/src/main/java/RegistryApplication.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/settings.gradle" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/start-information-service/build.gradle" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/start-information-service/src/main/java/StartInformationApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/settings.gradle.kts" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -30,10 +57,18 @@
       </state>
     </system>
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
         <entry key="$PROJECT_DIR$/.." value="main" />
+        <entry key="$PROJECT_DIR$" value="main" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
@@ -51,21 +86,55 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;project.propVCSSupport.DirectoryMappings&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "STEP-2",
+    "ignore.virus.scanning.warn.message": "true",
+    "jdk.selected.JAVA_MODULE": "11",
+    "last_directory_selection": "C:/Users/Vegas/IdeaProjects/power-supply-design/protective-equipment-service/src/main/java",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.15332031",
+    "project.structure.side.proportion": "0.5241379",
+    "settings.editor.selected.configurable": "project.propVCSSupport.DirectoryMappings",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
-  <component name="RunManager">
+}]]></component>
+  <component name="RecentsManager">
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Gradle.power-supply-design [clean]">
+    <configuration name="power-supply-design [build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="build" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>false</RunAsTest>
+      <method v="2" />
+    </configuration>
     <configuration name="power-supply-design [clean]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -90,6 +159,9 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Gradle.power-supply-design [clean]" />
+        <item itemvalue="Gradle.power-supply-design [build]" />
+        <item itemvalue="Gradle.power-supply-design [clean]" />
         <item itemvalue="Gradle.power-supply-design [clean]" />
         <item itemvalue="Gradle.power-supply-design [clean]" />
       </list>
