@@ -26,6 +26,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot:2.3.2.RELEASE'
     implementation "org.springframework.cloud:spring-cloud-starter-netflix-eureka-server"
     implementation "org.springframework.cloud:spring-cloud-starter-config"
+    implementation 'com.google.code.gson:gson:2.8.6'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test:2.3.2.RELEASE'
 }
