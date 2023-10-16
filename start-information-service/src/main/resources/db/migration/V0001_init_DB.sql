@@ -1,6 +1,6 @@
 create table start_information
 (
-    start_information_Id  int2 primary key,
+    start_information_id  int2 primary key,
     name varchar(255) not null,
     power float4 not null,
     amount int2 not null,

@@ -13,7 +13,7 @@ create table high_volt_cable_selection
 create table inductive_impedance_areas
 (
     inductive_impedance_areas_id  int2 primary key,
-    inductive_impedance_areas int2 not null
+    inductive_resistance float4 not null
 );
 
 create table high_volt_information
