@@ -1,9 +1,6 @@
 package com.protectiveequipmentservice.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,6 +11,8 @@ import javax.persistence.Table;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode
+@ToString
 @Entity
 @Table(name = "protective_equipment_selection")
 public class ProtectiveEquipmentSelection {

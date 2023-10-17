@@ -1,13 +1,13 @@
 package com.fullinformationservice.entity;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 @Getter
 @Setter
 @NoArgsConstructor
+@EqualsAndHashCode
+@ToString
 @Entity
 @Table(name = "full_start_information")
 public class FullStartInformation {

@@ -1,13 +1,13 @@
 package com.highvoltcablesservice.entity;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Getter
 @NoArgsConstructor
+@EqualsAndHashCode
+@ToString
 @Entity
 @Table(name = "inductive_impedance_areas")
 public class InductiveImpedanceAreas {

@@ -1,9 +1,6 @@
 package com.highvoltcablesservice.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -11,6 +8,8 @@ import javax.persistence.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode
+@ToString
 @Entity
 @Table(name = "high_volt_cables")
 public class HighVoltCables {

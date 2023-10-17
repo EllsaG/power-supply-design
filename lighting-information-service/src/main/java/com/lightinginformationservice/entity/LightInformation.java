@@ -1,15 +1,14 @@
 package com.lightinginformationservice.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode
+@ToString
 @Entity
 @Table(name="light_information")
 public class LightInformation {

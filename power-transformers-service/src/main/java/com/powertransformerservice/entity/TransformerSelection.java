@@ -1,15 +1,14 @@
 package com.powertransformerservice.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode
+@ToString
 @Entity
 @Table(name = "transformer_selection")
 public class TransformerSelection {
