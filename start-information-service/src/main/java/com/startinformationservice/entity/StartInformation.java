@@ -23,7 +23,7 @@ public class StartInformation {
     @Column(name = "name")
     private String name;
     @Column(name = "power")
-    private float power;
+    private float activePower;
     @Column(name = "amount")
     private short amount;
     @Column(name = "k_i")

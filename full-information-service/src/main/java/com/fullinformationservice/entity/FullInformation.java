@@ -17,35 +17,35 @@ import javax.persistence.Table;
 public class FullInformation {
     @Id
     @Column(name = "full_information_id")
-    private long fullInformationId;
+    private short fullInformationId;
     @Column(name = "busbar_name")
     private String busbarName;
     @Column(name = "amount")
-    private int amount;
+    private short amount;
     @Column(name = "avg_daily_active_power")
-    private double avgDailyActivePower;
+    private float avgDailyActivePower;
     @Column(name = "avg_daily_reactive_power")
-    private double avgDailyReactivePower;
+    private float avgDailyReactivePower;
     @Column(name = "effective_amount_of_equipment")
-    private int effectiveAmountOfEquipment;
+    private short effectiveAmountOfEquipment;
     @Column(name = "coefficient_max")
-    private double coefficientMax;
+    private float coefficientMax;
     @Column(name = "max_active_power")
-    private double maxActivePower;
+    private float maxActivePower;
     @Column(name = "max_reactive_power")
-    private double maxReactivePower;
+    private float maxReactivePower;
     @Column(name = "max_full_power")
-    private double maxFullPower;
+    private float maxFullPower;
     @Column(name = "max_electric_current")
-    private double maxElectricCurrent;
+    private float maxElectricCurrent;
     @Column(name = "power_of_group")
-    private double powerOfGroup;
+    private float activePower;
     @Column(name = "cos_f")
-    private double cosF;
+    private float cosF;
     @Column(name = "tg_f")
-    private double tgF;
+    private float tgF;
     @Column(name = "k_i")
-    private double ki;
+    private float ki;
     @Column(name = "module")
-    private double module;
+    private float module;
 }
