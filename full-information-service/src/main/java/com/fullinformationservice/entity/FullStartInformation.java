@@ -13,45 +13,45 @@ import javax.persistence.*;
 public class FullStartInformation {
     @Id
     @Column(name = "full_start_information_id")
-    private long fullStartInformationId;
+    private short fullStartInformationId;
 
     @Column(name = "full_information_id")
-    private long fullInformationId;
+    private short fullInformationId;
     @Column(name = "start_information_id")
-    private long startInformationId;
+    private short startInformationId;
     @Column(name = "name")
     private String name;
     @Column(name = "power")
-    private double power;
+    private float activePowerOfOne;
     @Column(name = "power_of_group")
-    private double powerOfGroup;
+    private float activePowerOfGroup;
     @Column(name = "amount")
-    private int amount;
+    private short amount;
     @Column(name = "k_i")
-    private double ki;
+    private float ki;
     @Column(name = "cos_f")
-    private double cosf;
+    private float cosf;
     @Column(name = "tg_f")
-    private double tgf;
+    private float tgf;
     @Column(name = "avg_daily_active_power")
-    private double avgDailyActivePower;
+    private float avgDailyActivePower;
     @Column(name = "avg_daily_reactive_power")
-    private double avgDailyReactivePower;
+    private float avgDailyReactivePower;
 
-    public FullStartInformation(long fullInformationId, long startInformationId, int amount) {
+    public FullStartInformation(short fullInformationId, short startInformationId, short amount) {
         this.fullInformationId = fullInformationId;
         this.startInformationId = startInformationId;
         this.amount = amount;
     }
 
-    public FullStartInformation(long fullInformationId, long startInformationId, String name, double power,
-                             double powerOfGroup, int amount, double ki, double cosf, double tgf,
-                             double avgDailyActivePower, double avgDailyReactivePower) {
+    public FullStartInformation(short fullInformationId, short startInformationId, String name, float activePowerOfOne,
+                                float activePowerOfGroup, short amount, float ki, float cosf, float tgf,
+                                float avgDailyActivePower, float avgDailyReactivePower) {
         this.fullInformationId = fullInformationId;
         this.startInformationId = startInformationId;
         this.name = name;
-        this.power = power;
-        this.powerOfGroup = powerOfGroup;
+        this.activePowerOfOne = activePowerOfOne;
+        this.activePowerOfGroup = activePowerOfGroup;
         this.amount = amount;
         this.ki = ki;
         this.cosf = cosf;
