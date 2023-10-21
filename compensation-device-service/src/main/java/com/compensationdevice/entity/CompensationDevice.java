@@ -17,10 +17,10 @@ import javax.persistence.Table;
 public class CompensationDevice {
     @Id
     @Column(name = "compensation_device_id")
-    private long compensationDeviceId;
+    private short compensationDeviceId;
     @Column(name = "model_of_compensation_device")
     private String modelOfCompensationDevice;
     @Column(name = "reactive_power_of_compensation_device")
-    private double reactivePowerOfCompensationDevice;
+    private float reactivePowerOfCompensationDevice;
 
 }

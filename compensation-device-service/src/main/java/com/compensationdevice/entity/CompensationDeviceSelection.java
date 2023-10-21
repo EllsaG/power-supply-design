@@ -17,11 +17,11 @@ import javax.persistence.Table;
 public class CompensationDeviceSelection {
     @Id
     @Column(name ="compensation_device_selection_id")
-    private long compensationDeviceSelectionId;
+    private short compensationDeviceSelectionId;
     @Column(name = "min_power_of_compensation_device")
-    private double minPowerOfCompensatingDevice;
+    private float minPowerOfCompensatingDevice;
     @Column(name = "max_power_of_compensation_device")
-    private double maxPowerOfCompensatingDevice;
+    private float maxPowerOfCompensatingDevice;
 
 
 
