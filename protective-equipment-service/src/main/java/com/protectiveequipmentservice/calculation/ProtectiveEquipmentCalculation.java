@@ -32,7 +32,7 @@ public class ProtectiveEquipmentCalculation {
                                          float nominalCurrentOfCircuitBreaker, String typeOfCircuitBreaker, String cableType, StartInformationClient startInformationClient,
                                          ProtectiveEquipmentSelectionRepository protectiveEquipmentSelectionRepository) {
 
-        if (startInformationClient.checkAvailability(id) == 0){
+        if (!startInformationClient.checkAvailability(id)){
             throw new InformationNotFoundException("Unable to find information about the protected equipment. Check the availability of this equipment.");
         }
 
