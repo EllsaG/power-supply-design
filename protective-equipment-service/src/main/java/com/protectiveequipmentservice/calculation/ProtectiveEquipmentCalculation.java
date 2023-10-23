@@ -17,11 +17,11 @@ public class ProtectiveEquipmentCalculation {
         final float voltage = 0.38F;
         final float coefIncreasingInrushCurrent = 5; // depends on type of equipment
 
-        float nominalCurrentOfEquipment = (float) (Math.round(activePower /
-                        (Math.sqrt(3) * voltage * cosf * efficiencyFactor) * 100) / 100.0);
-        float startingCurrentOfEquipment = Math.round((nominalCurrentOfEquipment * coefIncreasingInrushCurrent * 100)/100.0);
-        float calculatedCurrentOfThermalRelease = Math.round((1.15 * nominalCurrentOfEquipment * 100)/100.0);
-        float calculatedCurrentOfElectromagneticRelease = Math.round((1.25 * startingCurrentOfEquipment * 100)/100.0);
+        float nominalCurrentOfEquipment = Math.round(activePower /
+                        (Math.sqrt(3) * voltage * cosf * efficiencyFactor) * 100) / 100.0F;
+        float startingCurrentOfEquipment = Math.round(nominalCurrentOfEquipment * coefIncreasingInrushCurrent * 100)/100.0F;
+        float calculatedCurrentOfThermalRelease = Math.round(1.15 * nominalCurrentOfEquipment * 100)/100.0F;
+        float calculatedCurrentOfElectromagneticRelease = Math.round(1.25 * startingCurrentOfEquipment * 100)/100.0F;
 
         return new ProtectiveEquipmentSelection(startInformationId,nominalCurrentOfEquipment, startingCurrentOfEquipment,
                 calculatedCurrentOfThermalRelease, calculatedCurrentOfElectromagneticRelease);

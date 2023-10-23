@@ -27,10 +27,10 @@ public class LightingCalculation {
 
         List<LuminaireSelection> all = luminaireSelectionRepository.findAll();
 
-        for (int i = 0; i < all.size(); i++) {
-            if (all.get(i).getProductionHallHeight() == productionHallHeight &&
-                    all.get(i).getProductionHallWidth() == productionHallWidth &&
-                    all.get(i).getProductionHallLength() == productionHallLength) {
+        for (LuminaireSelection luminaireSelection : all) {
+            if (luminaireSelection.getProductionHallHeight() == productionHallHeight &&
+                    luminaireSelection.getProductionHallWidth() == productionHallWidth &&
+                    luminaireSelection.getProductionHallLength() == productionHallLength) {
                 throw new InformationAlreadyExistsException("Information about production hall with height: " + productionHallHeight +
                         ", width: " + productionHallWidth +
                         " and length: " + productionHallLength +
@@ -129,12 +129,13 @@ public class LightingCalculation {
         float reactivePower = (float) (Math.ceil((activePower * tgf)* 100) / 100.0);
 
         float fullPower = (float) (Math.ceil(Math.sqrt(Math.pow(activePower, 2) +
-                        Math.pow(reactivePower, 2))* 100) / 100.0);
+                                Math.pow(reactivePower, 2))* 100) / 100.0);
 
         float electricCurrent = (float) (Math.ceil(((coefP * fullPower) / (Math.sqrt(3) * 380)) * 100000) / 100.0); // max electric current of this busbar
 
-        float electricCurrentOfOneRowOfLuminaire = (float) (Math.round(((coefP * electricCurrent) /
-                        (Math.sqrt(3) * 0.38 * amountLuminairesPerLength)) *100) / 100.0);
+
+        float electricCurrentOfOneRowOfLuminaire =  Math.round(((coefP * electricCurrent) /
+                        (Math.sqrt(3) * 0.38 * amountLuminairesPerLength)) *100) / 100.0F;
 
         return new LightInformation(lightingId, modelOfLuminaire, modelOfLamp, amountOfLuminaires, amountOfLampsInOneLuminaire,
                 activePowerOneLamp, lightFluxOneLamp, distanceBetweenRowsOfLamps,

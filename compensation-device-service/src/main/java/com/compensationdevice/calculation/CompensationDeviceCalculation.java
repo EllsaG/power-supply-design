@@ -8,17 +8,17 @@ import com.compensationdevice.repository.CompensationDeviceSelectionRepository;
 import com.compensationdevice.rest.FullInformationResponseDTO;
 import com.compensationdevice.rest.FullInformationServiceClient;
 
-public class ReactivePowerCompensation {
+public class CompensationDeviceCalculation {
     private static final float coefTakingIncreasingCosf = 0.9F;
 
     public CompensationDeviceSelection powerOfCompensatingDevice(short id, float avgDailyActivePower, float tgfBeforeCompensation) {
         float minTgfRecommendedAfterCompensation = 0.33F;
         float maxTgfRecommendedAfterCompensation = 0.4F;
 
-        float maxPowerOfCompensatingDevice = (float) (Math.round(avgDailyActivePower * coefTakingIncreasingCosf
-                        * (tgfBeforeCompensation - minTgfRecommendedAfterCompensation) * 100.0) / 100.0);
-        float  minPowerOfCompensatingDevice= (float) (Math.round(avgDailyActivePower * coefTakingIncreasingCosf
-                        * (tgfBeforeCompensation - maxTgfRecommendedAfterCompensation) * 100.0) / 100.0);
+        float maxPowerOfCompensatingDevice =  (Math.round(avgDailyActivePower * coefTakingIncreasingCosf
+                        * (tgfBeforeCompensation - minTgfRecommendedAfterCompensation) * 100.0) / 100.0F);
+        float  minPowerOfCompensatingDevice= (Math.round(avgDailyActivePower * coefTakingIncreasingCosf
+                        * (tgfBeforeCompensation - maxTgfRecommendedAfterCompensation) * 100.0) / 100.0F);
 
         return new CompensationDeviceSelection(id, minPowerOfCompensatingDevice, maxPowerOfCompensatingDevice);
     }

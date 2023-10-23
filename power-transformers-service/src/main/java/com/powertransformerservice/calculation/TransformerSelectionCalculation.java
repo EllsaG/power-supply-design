@@ -12,11 +12,11 @@ public class TransformerSelectionCalculation {
 
 
     public TransformerSelection ratedPowerForChoosingOfTransformer(short id, float maxFullPower) {
-        float lossesOfActivePower = (float) (0.2 * maxFullPower);
-        float lossesOfReactivePower = (float) (0.1 * maxFullPower);
+        float lossesOfActivePower = 0.2F * maxFullPower;
+        float lossesOfReactivePower = 0.1F * maxFullPower;
         float lossesOfFullPower = (float) Math.sqrt(Math.pow(lossesOfActivePower, 2) + Math.pow(lossesOfReactivePower, 2));
 
-        float ratedPowerForChoosingOfTransformer = (float) (Math.round(maxFullPower + lossesOfFullPower * 100.0)/100.0);
+        float ratedPowerForChoosingOfTransformer = Math.round(maxFullPower + lossesOfFullPower * 100.0)/100.0F;
         return new TransformerSelection(id, ratedPowerForChoosingOfTransformer);
     }
 
@@ -29,7 +29,7 @@ public class TransformerSelectionCalculation {
         FullInformationResponseDTO fullInformationById = fullInformationServiceClient.getFullInformationById(id);
 
         float maxFullPower = fullInformationById.getMaxFullPower();
-        float coefOfTransformerLoad = (float) (Math.round(maxFullPower / fullPowerOfTransformer * 100.0)/100.0);
+        float coefOfTransformerLoad = Math.round(maxFullPower / fullPowerOfTransformer * 100.0)/100.0F;
 
         if (fullPowerOfTransformer >= transformerSelection.getRatedPowerForTransformerSelection()){
             return new PowerTransformers(id, modelOfTransformer, fullPowerOfTransformer, coefOfTransformerLoad,
