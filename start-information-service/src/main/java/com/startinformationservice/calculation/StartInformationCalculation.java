@@ -26,8 +26,8 @@ public class StartInformationCalculation {
             }
         }
 
-        float avgDailyActivePower = (float) (Math.round(activePower * ki * 100.0) / 100.0); // average daily active power of one equipment
-        float avgDailyReactivePower = (float) (Math.round(avgDailyActivePower * tgf * 100.0) / 100.0); // average daily reactive power of one equipment
+        float avgDailyActivePower = Math.round(activePower * ki * 100.0) / 100.0F; // average daily active power of one equipment
+        float avgDailyReactivePower = Math.round(avgDailyActivePower * tgf * 100.0) / 100.0F; // average daily reactive power of one equipment
 
 
         return new StartInformation(startInformId, name, activePower, amount, ki, cosf, tgf, avgDailyActivePower, avgDailyReactivePower);

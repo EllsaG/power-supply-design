@@ -46,11 +46,11 @@ public class FullInformationCalculation {
 
         float module = module(informationAboutBusbarIncludedEquipment); // module of the current busbar
 
-        float kI = (float) (Math.round((avgDailyActivePowerTotal / activePowerTotal) * 100.0) / 100.0); // utilization factor
+        float kI =  (Math.round((avgDailyActivePowerTotal / activePowerTotal) * 100.0) / 100.0F); // utilization factor
 
-        float tgF = (float) (Math.round((avgDailyReactivePowerTotal / avgDailyActivePowerTotal) * 100.0) / 100.0); // tgf
+        float tgF =  (Math.round((avgDailyReactivePowerTotal / avgDailyActivePowerTotal) * 100.0) / 100.0F); // tgf
 
-        float cosF = (float) (Math.round(Math.sqrt(1 / (1 + Math.pow(tgF, 2))) * 100.0) / 100.0); //cosf
+        float cosF =  (Math.round(Math.sqrt(1 / (1 + Math.pow(tgF, 2))) * 100.0) / 100.0F); //cosf
 
         short effectiveAmountOfEquipment;// effective amount of equipment
 
