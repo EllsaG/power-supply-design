@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @FeignClient(name = "start-information-service")
 public interface StartInformationClient {
     @RequestMapping(value = "startInformation/{checkStartInformationId}", method = RequestMethod.GET)
-    Short checkAvailability(@PathVariable("checkStartInformationId") short startInformationId);
+    Boolean checkAvailability(@PathVariable("checkStartInformationId") short startInformationId);
 
 
 }
