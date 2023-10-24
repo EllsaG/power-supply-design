@@ -25,8 +25,8 @@ public class StartInformationService {
     }
 
 
-    public StartInformationResponseDTO save(short startInformationId, String name, float power, short amount,
-                                            float ki, float cosf, float tgf) {
+    public StartInformationResponseDTO saveStartInformation(short startInformationId, String name, float power, short amount,
+                                                            float ki, float cosf, float tgf) {
         StartInformationCalculation startInformationCalculation = new StartInformationCalculation();
         StartInformation startInformation = startInformationCalculation
                 .createIfDontExist(startInformationRepository, startInformationId, name, power, amount, ki, cosf, tgf);
@@ -39,30 +39,15 @@ public class StartInformationService {
         return getAllStartInformation();
     }
 
-    public StartInformation getInformationById(short startInformationId) {
-        return startInformationRepository.findById(startInformationId)
-                .orElseThrow(() -> new InformationNotFoundException("Unable to find information about equipment with id № " + startInformationId));
+    public StartInformationResponseDTO updateStartInformation(short startInformationId, String name, float power, short amount,
+                                                              float ki, float cosf, float tgf) {
+
+        deleteStartInformationById(startInformationId);
+
+        return saveStartInformation( startInformationId,  name,  power,  amount, ki,  cosf,  tgf);
     }
 
-    public Boolean checkAvailability(short startInformationId) {
-        return startInformationRepository.existsById(startInformationId);
-    }
-
-
-    public StartInformationResponseDTO getAllStartInformation() {
-        return new StartInformationResponseDTO(startInformationRepository.findAll());
-    }
-
-    public StartInformationResponseDTO update(short startInformationId, String name, float power, short amount,
-                                   float ki, float cosf, float tgf) {
-
-        delete(startInformationId);
-
-        return save( startInformationId,  name,  power,  amount, ki,  cosf,  tgf);
-    }
-
-
-    public void delete(short startInformationId) {
+    public void deleteStartInformationById(short startInformationId) {
 
         if (startInformationRepository.existsById(startInformationId)){
             startInformationRepository.deleteById(startInformationId);
@@ -72,6 +57,25 @@ public class StartInformationService {
             protectiveEquipmentServiceClient.deleteProtectiveEquipmentSelectionInformationById(startInformationId);
         }
     }
+
+    public StartInformation getStartInformationById(short startInformationId) {
+        return startInformationRepository.findById(startInformationId)
+                .orElseThrow(() -> new InformationNotFoundException("Unable to find information about equipment with id № " + startInformationId));
+    }
+
+    public Boolean isAvailable(short startInformationId) {
+        return startInformationRepository.existsById(startInformationId);
+    }
+
+
+    public StartInformationResponseDTO getAllStartInformation() {
+        return new StartInformationResponseDTO(startInformationRepository.findAll());
+    }
+
+
+
+
+
 
 
 }

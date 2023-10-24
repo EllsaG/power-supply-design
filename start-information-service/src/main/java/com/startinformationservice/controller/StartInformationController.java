@@ -15,36 +15,36 @@ public class StartInformationController {
         this.startInformationService = startInformationService;
     }
 
-    @GetMapping("/startInformation/all")
+    @GetMapping("/getAllInformation")
     public StartInformationResponseDTO getAll(){
         return startInformationService.getAllStartInformation();
     }
 
-    @PostMapping("/startInformation/create")
+    @PutMapping("/create")
     public StartInformationResponseDTO createStartInformation(@RequestBody StartInformationRequestDTO startInformationRequestDTO) {
-        return startInformationService.save(startInformationRequestDTO.getStartInformId(),
+        return startInformationService.saveStartInformation(startInformationRequestDTO.getStartInformId(),
                 startInformationRequestDTO.getName(),startInformationRequestDTO.getPower(),
                 startInformationRequestDTO.getAmount(), startInformationRequestDTO.getKi(),
                 startInformationRequestDTO.getCosf(), startInformationRequestDTO.getTgf());
     }
 
-    @PostMapping("/startInformation/update")
+    @PutMapping("/update")
     public StartInformationResponseDTO updateStartInformation(@RequestBody StartInformationRequestDTO startInformationRequestDTO){
-        return startInformationService.update(startInformationRequestDTO.getStartInformId(),
+        return startInformationService.updateStartInformation(startInformationRequestDTO.getStartInformId(),
                 startInformationRequestDTO.getName(),startInformationRequestDTO.getPower(),
                 startInformationRequestDTO.getAmount(), startInformationRequestDTO.getKi(),
                 startInformationRequestDTO.getCosf(), startInformationRequestDTO.getTgf());
     }
 
-    @DeleteMapping("/startInformation/delete/{startInformationId}")
+    @DeleteMapping("/delete/{startInformationId}")
     public StartInformationResponseDTO deleteStartInformation(@PathVariable short startInformationId){
-        startInformationService.delete(startInformationId);
+        startInformationService.deleteStartInformationById(startInformationId);
         return startInformationService.getAllStartInformation();
     }
 
-    @GetMapping("/startInformation/{checkStartInformationId}")
-    public Boolean checkAvailability(@PathVariable short checkStartInformationId){
-        return startInformationService.checkAvailability(checkStartInformationId);
+    @GetMapping("/{startInformationId}")
+    public Boolean checkAvailability(@PathVariable short startInformationId){
+        return startInformationService.isAvailable(startInformationId);
     }
 
 
