@@ -11,8 +11,8 @@ import com.protectiveequipmentservice.rest.StartInformationClient;
 public class ProtectiveEquipmentCalculation {
 
 
-    public ProtectiveEquipmentSelection selectionProtectiveEquipment(short startInformationId,
-                                                                     float activePower, float cosf) {
+    public ProtectiveEquipmentSelection createNewProtectiveEquipmentSelectionInformation(short startInformationId,
+                                                                              float activePower, float cosf) {
         final float efficiencyFactor = 0.87F; // depends on type of equipment
         final float voltage = 0.38F;
         final float coefIncreasingInrushCurrent = 5; // depends on type of equipment
@@ -28,9 +28,9 @@ public class ProtectiveEquipmentCalculation {
     }
 
 
-    public ProtectiveEquipment createNew(short id, float nominalCurrentOfThermalRelease, float nominalCurrentOfElectromagneticRelease,
-                                         float nominalCurrentOfCircuitBreaker, String typeOfCircuitBreaker, String cableType, StartInformationClient startInformationClient,
-                                         ProtectiveEquipmentSelectionRepository protectiveEquipmentSelectionRepository) {
+    public ProtectiveEquipment createNewProtectiveEquipment(short id, float nominalCurrentOfThermalRelease, float nominalCurrentOfElectromagneticRelease,
+                                                            float nominalCurrentOfCircuitBreaker, String typeOfCircuitBreaker, String cableType, StartInformationClient startInformationClient,
+                                                            ProtectiveEquipmentSelectionRepository protectiveEquipmentSelectionRepository) {
 
         if (!startInformationClient.checkAvailability(id)){
             throw new InformationNotFoundException("Unable to find information about the protected equipment. Check the availability of this equipment.");
