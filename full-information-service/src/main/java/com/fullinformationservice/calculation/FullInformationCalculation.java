@@ -16,9 +16,9 @@ import java.util.stream.Collectors;
 public class FullInformationCalculation {
 
     public FullInformation calculation(FullInformationRepository fullInformationRepository,
-                                       short id, String nameOfBusbar, List<FullStartInformation> informationAboutBusbarIncludedEquipment) {
+                                       short fullInformationId, String nameOfBusbar, List<FullStartInformation> informationAboutBusbarIncludedEquipment) {
 
-        isExists(fullInformationRepository, id);
+        isExists(fullInformationRepository, fullInformationId);
 
 
 
@@ -61,26 +61,23 @@ public class FullInformationCalculation {
                     .get();
             effectiveAmountOfEquipment = (short) (2*activePowerTotal/maxPowerOfOne);
         } else if(amountTotal<5 && kI>0.2 && module>3) {
-            double aDouble = informationAboutBusbarIncludedEquipment.stream()
-                    .map((e) -> Math.pow(e.getActivePowerOfOne(), 2) * e.getAmount())
-                    .reduce(Double::sum)
+            short aShort = informationAboutBusbarIncludedEquipment.stream()
+                    .map((e) -> (short)(Math.pow(e.getActivePowerOfOne(), 2) * e.getAmount()))
+                    .reduce((a,b)-> (short) (a+b))
                     .get();
-            effectiveAmountOfEquipment = (short) (Math.pow(activePowerTotal,2)*aDouble);
+            effectiveAmountOfEquipment = (short) (Math.pow(activePowerTotal,2)*aShort);
         } else{
             effectiveAmountOfEquipment = amountTotal;
         }
 
-        return getFullInformation(id, nameOfBusbar, amountTotal, activePowerTotal, avgDailyActivePowerTotal, avgDailyReactivePowerTotal, module, kI, tgF, cosF, effectiveAmountOfEquipment);
-
+        return getFullInformation(fullInformationId, nameOfBusbar, amountTotal, activePowerTotal, avgDailyActivePowerTotal, avgDailyReactivePowerTotal, module, kI, tgF, cosF, effectiveAmountOfEquipment);
     }
 
-    private static List <FullStartInformation> getInformationAboutBusbarIncludedEquipment(List<FullStartInformation> numbersAtAmountOfEquipments,
+    public List <FullStartInformation> getInformationAboutBusbarIncludedEquipment(List<FullStartInformation> numbersAtAmountOfEquipments,
                                                                                    StartInformationServiceClient startInformationServiceClient) {
         HashMap<Short, Short> numbersAndAmountOfEquipments = new HashMap<>();
         numbersAtAmountOfEquipments
-                .forEach((e) -> {
-                    numbersAndAmountOfEquipments.put(e.getStartInformationId(), e.getAmount());
-                });
+                .forEach((e) -> numbersAndAmountOfEquipments.put(e.getStartInformationId(), e.getAmount()));
 
         List<Short> numbersOfEquipments = new ArrayList<>(numbersAndAmountOfEquipments.keySet());
 
@@ -95,7 +92,7 @@ public class FullInformationCalculation {
         return fullStartInformationList;
     }
 
-    private static FullStartInformation getFullStartInformation(List<FullStartInformation> fullStartInformation, int i, StartInformationResponseDTO startInformationById) {
+    private FullStartInformation getFullStartInformation(List<FullStartInformation> fullStartInformation, int i, StartInformationResponseDTO startInformationById) {
         FullStartInformation fullStartInformId1 = new FullStartInformation();
         fullStartInformId1.setFullInformationId(fullStartInformation.get(i).getFullInformationId());
         fullStartInformId1.setStartInformationId(fullStartInformation.get(i).getStartInformationId());
