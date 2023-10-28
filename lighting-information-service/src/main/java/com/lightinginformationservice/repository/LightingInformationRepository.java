@@ -5,5 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface LightInformationRepository extends JpaRepository<LightInformation,Short> {
+public interface LightingInformationRepository extends JpaRepository<LightInformation,Short> {
 }

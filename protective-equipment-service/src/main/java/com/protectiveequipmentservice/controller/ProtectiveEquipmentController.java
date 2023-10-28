@@ -36,7 +36,7 @@ public class ProtectiveEquipmentController {
     }
 
     @PutMapping("/create/selectionInformation")
-    public void saveProtectiveEquipmentSelectionInformation(@RequestBody ProtectiveEquipmentSelectionInformationRequestDTO
+    public void createProtectiveEquipmentSelectionInformation(@RequestBody ProtectiveEquipmentSelectionInformationRequestDTO
                                                                         protectiveEquipmentSelectionInformationRequestDTO){
         protectiveEquipmentService.saveProtectiveEquipmentSelectionInformation(
                 protectiveEquipmentSelectionInformationRequestDTO.getStartInformationId(),

@@ -1,5 +1,4 @@
-package com.lightinginformationservice.dto.postget;
-
+package com.lightinginformationservice.controller.dto;
 
 import com.lightinginformationservice.entity.LightInformation;
 import lombok.AllArgsConstructor;
@@ -7,13 +6,10 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.List;
-
 @Getter
 @Setter
 @AllArgsConstructor
-public class CreateNewLightingResponseDTO {
+public class LightingInformationResponseDTO {
 
     List<LightInformation> lightInformationList;
-
-
 }

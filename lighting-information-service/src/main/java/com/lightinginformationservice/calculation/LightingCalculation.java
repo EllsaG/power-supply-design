@@ -1,12 +1,15 @@
 package com.lightinginformationservice.calculation;
 
 
-import com.lightinginformationservice.dto.LightFluxAtAmountOfLamps;
-import com.lightinginformationservice.dto.postget.LuminariesSelectionInformationResponseDTO;
+
+
+
+import com.lightinginformationservice.controller.dto.LightFluxAtAmountOfLamps;
+import com.lightinginformationservice.controller.dto.LuminaireSelectionResponseDTO;
 import com.lightinginformationservice.entity.LightInformation;
 import com.lightinginformationservice.entity.LuminaireSelection;
 import com.lightinginformationservice.exceptions.InformationAlreadyExistsException;
-import com.lightinginformationservice.repository.LightInformationRepository;
+import com.lightinginformationservice.repository.LightingInformationRepository;
 import com.lightinginformationservice.repository.LuminaireSelectionRepository;
 
 import java.util.ArrayList;
@@ -69,11 +72,11 @@ public class LightingCalculation {
 
     }
 
-    public LuminariesSelectionInformationResponseDTO forResponseChooseLuminaries(LuminaireSelectionRepository luminaireSelectionRepository) {
+    public LuminaireSelectionResponseDTO forResponseChooseLuminaries(LuminaireSelectionRepository luminaireSelectionRepository) {
 
         List<LuminaireSelection> all = luminaireSelectionRepository.findAll();
-        LuminariesSelectionInformationResponseDTO luminariesSelectionInformationResponseDTO =
-                new LuminariesSelectionInformationResponseDTO();// min and max light flux at 1, 2, 3 and 4 lamps in the Luminaire
+        LuminaireSelectionResponseDTO luminaireSelectionResponseDTO =
+                new LuminaireSelectionResponseDTO();// min and max light flux at 1, 2, 3 and 4 lamps in the Luminaire
         List<LightFluxAtAmountOfLamps> lightFluxAtAmountOfLamps = new ArrayList<>();
 
         for (LuminaireSelection f: all) {
@@ -81,27 +84,24 @@ public class LightingCalculation {
             double minLightFluxForChooseLuminaire = Math.ceil(lightFlux * 1.4);
             double maxLightFluxForChooseLuminaire = Math.ceil(lightFlux * 1.6);
 
-            for (int amountOfLamps = 1; amountOfLamps < 5; amountOfLamps++) {
+            for (short amountOfLamps = 1; amountOfLamps < 5; amountOfLamps++) {
                 lightFluxAtAmountOfLamps.add(new LightFluxAtAmountOfLamps(f.getLuminaireSelectionId(),
                         amountOfLamps,
-                        Math.round(minLightFluxForChooseLuminaire/amountOfLamps*10)/10.0,
-                        Math.round(maxLightFluxForChooseLuminaire/amountOfLamps*10)/10.0));
+                        Math.round(minLightFluxForChooseLuminaire/amountOfLamps*10)/10.0F,
+                        Math.round(maxLightFluxForChooseLuminaire/amountOfLamps*10)/10.0F));
             }
-            luminariesSelectionInformationResponseDTO.setLightFluxAtAmountOfLampsList(lightFluxAtAmountOfLamps);
+            luminaireSelectionResponseDTO.setLightFluxAtAmountOfLampsList(lightFluxAtAmountOfLamps);
         }
 
-        return luminariesSelectionInformationResponseDTO;
+        return luminaireSelectionResponseDTO;
     }
 
 
-
-
-
     public LightInformation electricCalculation(LuminaireSelectionRepository luminaireSelectionRepository,
-                                                LightInformationRepository lightInformationRepository,short lightingId, String modelOfLuminaire,
+                                                LightingInformationRepository lightingInformationRepository, short lightingId, String modelOfLuminaire,
                                                 String modelOfLamp, float lightFluxOneLamp, short amountOfLampsInOneLuminaire, float activePowerOneLamp) {
 
-        Optional<LightInformation> byId = lightInformationRepository.findById(lightingId);
+        Optional<LightInformation> byId = lightingInformationRepository.findById(lightingId);
 
         if (byId.isPresent()) {
             throw new InformationAlreadyExistsException("Information about lighting with id № " + lightingId + " is already exists");
