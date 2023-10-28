@@ -1,6 +1,6 @@
-package com.lightinginformationservice.dto.postget;
+package com.lightinginformationservice.controller.dto;
 
-import com.lightinginformationservice.dto.LightFluxAtAmountOfLamps;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,7 +12,7 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class LuminariesSelectionInformationResponseDTO {
+public class LuminaireSelectionResponseDTO {
 
     List<LightFluxAtAmountOfLamps> lightFluxAtAmountOfLampsList;
 

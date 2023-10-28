@@ -1,20 +1,20 @@
-package com.lightinginformationservice.dto.postget;
+package com.lightinginformationservice.controller.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 
 @Getter
-public class CreateNewLightingRequestDTO {
-    @JsonProperty("lightingId")
-    private long lightingId;
+public class LightingInformationRequestDTO {
+    @JsonProperty("lightingInformationId")
+    private short lightingInformationId;
     @JsonProperty("modelOfLuminaire")
     private String modelOfLuminaire;
     @JsonProperty("modelOfLamp")
     private String modelOfLamp;
     @JsonProperty("amountOfLampsInOneLuminaire")
-    private int amountOfLampsInOneLuminaire;
+    private short amountOfLampsInOneLuminaire;
     @JsonProperty("lightFluxOneLamp")
-    private double lightFluxOneLamp;
+    private float lightFluxOneLamp;
     @JsonProperty("activePowerOneLamp")
-    private double activePowerOneLamp;
+    private float activePowerOneLamp;
 }
