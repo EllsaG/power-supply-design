@@ -12,7 +12,7 @@ public interface PowerTransformerSelectionServiceClient {
     @RequestMapping(value = "powerTransformers/create/selectionInformation", method = RequestMethod.PUT)
     void savePowerTransformerSelectionInformation(@RequestBody PowerTransformerSelectionInformationRequestDTO powerTransformerSelectionInformationRequestDTO);
 
-    @RequestMapping(value = "powerTransformers/delete/{powerTransformersSelectionId}", method = RequestMethod.PUT)
+    @RequestMapping(value = "powerTransformers/delete/selectionInformation/{powerTransformersSelectionId}", method = RequestMethod.PUT)
     void deletePowerTransformerSelectionInformationById(@PathVariable("powerTransformersSelectionId") short powerTransformersSelectionId);
 
     @RequestMapping(value = "powerTransformers/check/{powerTransformersSelectionId}", method = RequestMethod.GET)

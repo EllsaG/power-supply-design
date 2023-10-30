@@ -78,6 +78,7 @@ public class FullInformationService {
 
     public FullInformationResponseDTO updateBusbar(short fullInformationId, String nameOfBusbar,
                                                    List<FullStartInformation> numbersAndAmountOfEquipments) {
+        powerTransformerSelectionServiceClient.deletePowerTransformerSelectionInformationById(fullInformationId);
         saveNewBusbar(fullInformationId, nameOfBusbar, numbersAndAmountOfEquipments);
         return getAllFullInformation();
     }
