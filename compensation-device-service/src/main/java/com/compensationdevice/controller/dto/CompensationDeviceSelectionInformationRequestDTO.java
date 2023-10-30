@@ -1,4 +1,4 @@
-package com.fullinformationservice.rest;
+package com.compensationdevice.controller.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

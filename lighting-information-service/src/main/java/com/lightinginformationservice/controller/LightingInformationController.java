@@ -27,7 +27,7 @@ public class LightingInformationController {
     }
 
     @GetMapping("/luminaireSelection/getAllInformation")
-    public LuminaireSelectionResponseDTO getAllForChooseLuminaries(){
+    public LuminaireSelectionResponseDTO getAllLuminaireSelectionInformation(){
         return lightingInformationService.getAllLuminaireSelectionInformation();
     }
 
