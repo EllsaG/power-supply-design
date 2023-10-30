@@ -42,7 +42,6 @@ public class ProtectiveEquipmentService {
         protectiveEquipmentRepository.save(newProtectiveEquipment);
 
         return new ProtectiveEquipmentResponseDTO(getAllProtectiveEquipment(), getAllProtectiveEquipmentSelectionInformation());
-
     }
 
     public void saveProtectiveEquipmentSelectionInformation(short startInformationId, float activePower, float cosf) {
@@ -52,7 +51,6 @@ public class ProtectiveEquipmentService {
                 protectiveEquipmentCalculation.createNewProtectiveEquipmentSelectionInformation(startInformationId,activePower, cosf);
 
         protectiveEquipmentSelectionRepository.save(newProtectiveEquipmentSelectionInformation);
-
     }
 
     public ProtectiveEquipmentResponseDTO updateProtectiveEquipment(short id, float nominalCurrentOfThermalRelease, float nominalCurrentOfElectromagneticRelease,
@@ -85,9 +83,7 @@ public class ProtectiveEquipmentService {
                 .orElseThrow(() -> new InformationNotFoundException("Unable to find information about the protected equipment. Check the availability of this equipment."));
     }
 
-    public Boolean isAvailable(short protectiveEquipmentSelectionId) {
-        return protectiveEquipmentRepository.existsById(protectiveEquipmentSelectionId);
-    }
+
 
     public List<ProtectiveEquipment> getAllProtectiveEquipment() {
         return protectiveEquipmentRepository.findAll();
@@ -97,4 +93,7 @@ public class ProtectiveEquipmentService {
         return protectiveEquipmentSelectionRepository.findAll();
     }
 
+    public Boolean isAvailable(short protectiveEquipmentSelectionId) {
+        return protectiveEquipmentRepository.existsById(protectiveEquipmentSelectionId);
+    }
 }

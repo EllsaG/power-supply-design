@@ -64,7 +64,7 @@ public class FullInformationController {
         return fullInformationService.deleteFullInformationById(fullInformationId);
     }
 
-    @GetMapping("/{fullInformationId}")
+    @GetMapping("/check/{fullInformationId}")
     public Boolean checkAvailability(@PathVariable short fullInformationId){
         return fullInformationService.isAvailable(fullInformationId);
     }

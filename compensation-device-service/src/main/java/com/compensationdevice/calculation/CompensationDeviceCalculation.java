@@ -6,12 +6,11 @@ import com.compensationdevice.entity.CompensationDeviceSelection;
 import com.compensationdevice.exceptions.IncorrectNumberValueException;
 import com.compensationdevice.repository.CompensationDeviceSelectionRepository;
 import com.compensationdevice.rest.FullInformationResponseDTO;
-import com.compensationdevice.rest.FullInformationServiceClient;
 
 public class CompensationDeviceCalculation {
     private static final float coefTakingIncreasingCosf = 0.9F;
 
-    public CompensationDeviceSelection powerOfCompensatingDevice(short id, float avgDailyActivePower, float tgfBeforeCompensation) {
+    public CompensationDeviceSelection createCompensationDeviceSelectionInformation(short compensationDeviceId, float avgDailyActivePower, float tgfBeforeCompensation) {
         float minTgfRecommendedAfterCompensation = 0.33F;
         float maxTgfRecommendedAfterCompensation = 0.4F;
 
@@ -20,13 +19,13 @@ public class CompensationDeviceCalculation {
         float  minPowerOfCompensatingDevice= (Math.round(avgDailyActivePower * coefTakingIncreasingCosf
                         * (tgfBeforeCompensation - maxTgfRecommendedAfterCompensation) * 100.0) / 100.0F);
 
-        return new CompensationDeviceSelection(id, minPowerOfCompensatingDevice, maxPowerOfCompensatingDevice);
+        return new CompensationDeviceSelection(compensationDeviceId, minPowerOfCompensatingDevice, maxPowerOfCompensatingDevice);
     }
 
-    public CompensationDevice createNewCompensatingDevice(short id, String nameOfCompensationDevice, float powerOfCompensatingDevice,
-                                                          FullInformationServiceClient fullInformationServiceClient,
+    public CompensationDevice createNewCompensatingDevice(short compensationDeviceId, String nameOfCompensationDevice, float powerOfCompensatingDevice,
+                                                          FullInformationResponseDTO fullInformation,
                                                           CompensationDeviceSelectionRepository compensationDeviceSelectionRepository) {
-        FullInformationResponseDTO fullInformation = fullInformationServiceClient.getFullInformationById(id);
+
 
         float avgDailyActivePower = fullInformation.getAvgDailyActivePower();
         float tgfBeforeCompensation = fullInformation.getTgF();
@@ -35,9 +34,9 @@ public class CompensationDeviceCalculation {
                         / (coefTakingIncreasingCosf * avgDailyActivePower));
 
         if (tgfActualValueCheck >=0.33 && tgfActualValueCheck <= 0.4){
-            return new CompensationDevice(id, nameOfCompensationDevice, powerOfCompensatingDevice);
+            return new CompensationDevice(compensationDeviceId, nameOfCompensationDevice, powerOfCompensatingDevice);
         }else {
-            CompensationDeviceSelection compensationDeviceSelection = compensationDeviceSelectionRepository.findById(id).get();
+            CompensationDeviceSelection compensationDeviceSelection = compensationDeviceSelectionRepository.findById(compensationDeviceId).get();
             float minPowerOfCompensatingDevice = compensationDeviceSelection.getMinPowerOfCompensatingDevice();
             float maxPowerOfCompensatingDevice = compensationDeviceSelection.getMaxPowerOfCompensatingDevice();
             throw new IncorrectNumberValueException("Incorrect power value of the compensating device, as it should be between "
