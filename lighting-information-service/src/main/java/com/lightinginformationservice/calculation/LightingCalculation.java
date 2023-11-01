@@ -72,7 +72,7 @@ public class LightingCalculation {
 
     }
 
-    public LuminaireSelectionResponseDTO forResponseChooseLuminaries(LuminaireSelectionRepository luminaireSelectionRepository) {
+    public LuminaireSelectionResponseDTO createLuminaireSelectionResponse(LuminaireSelectionRepository luminaireSelectionRepository) {
 
         List<LuminaireSelection> all = luminaireSelectionRepository.findAll();
         LuminaireSelectionResponseDTO luminaireSelectionResponseDTO =
