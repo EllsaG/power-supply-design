@@ -33,7 +33,7 @@ public class LightingInformationService {
                 heightProductionHall, widthProductionHall, lengthProductionHall, luminaireSelectionRepository);
         luminaireSelectionRepository.save(luminaireSelection);
 
-        return lightingCalculation.forResponseChooseLuminaries(luminaireSelectionRepository);
+        return lightingCalculation.createLuminaireSelectionResponse(luminaireSelectionRepository);
     }
 
     public LightingInformationResponseDTO saveLightingInformation(short lightingInformationId, String modelOfLuminaire, String modelOfLamp, float lightFluxOneLamp,
@@ -87,7 +87,7 @@ public class LightingInformationService {
 
     public LuminaireSelectionResponseDTO getAllLuminaireSelectionInformation() {
         LightingCalculation lightingCalculation = new LightingCalculation();
-        return lightingCalculation.forResponseChooseLuminaries(luminaireSelectionRepository);
+        return lightingCalculation.createLuminaireSelectionResponse(luminaireSelectionRepository);
     }
 
 

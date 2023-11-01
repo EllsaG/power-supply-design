@@ -15,7 +15,7 @@ import java.util.List;
 
 public class HighVoltCalculation {
 
-    double ratedVoltageOfLowerVoltageWindingOfTransformer = 0.4; // Rated voltage of the low voltage winding U_НН=0,4 kV;
+    float ratedVoltageOfLowerVoltageWindingOfTransformer = 0.4F; // Rated voltage of the low voltage winding U_НН=0,4 kV;
 
     final float highVoltageAirLineInductiveResistance = 0.08F; // inductive resistance of the overhead high-voltage line
     final float highVoltageCableLineInductiveResistance = 0.08F; //inductive resistance of the cable high-voltage line
@@ -30,16 +30,16 @@ public class HighVoltCalculation {
     For cables with aluminium conductors the coefficient = 85 */
 
 
-    public HighVoltInformation shortCircuitCurrentCalculation(short id, short baseVoltage, short baseFullPower,
+    public HighVoltInformation highVoltInformationCalculation(short highVoltInformationId, short baseVoltage, short baseFullPower,
                                                               float relativeBaselineUnrestrictedPowerResistance,
                                                               float highVoltageAirLineLength, float headTransformerFullPower, float shortCircuitVoltage,
                                                               float cableLineLength, float ratedVoltageOfHigherVoltageWindingOfTransformer,
-                                                              List<InductiveImpedanceAreas> inductiveImpedanceAreasList,
+                                                              List<Float> inductiveResistanceList,
                                                               PowerTransformersServiceClient powerTransformersServiceClient) {
 
-        PowerTransformersResponseDTO powerTransformersResponseDTO = powerTransformersServiceClient.getPowerTransformersInformationById(id);
+        PowerTransformersResponseDTO powerTransformersResponseDTO = powerTransformersServiceClient.getPowerTransformersInformationById(highVoltInformationId);
         if (powerTransformersResponseDTO == null){
-            throw new InformationNotFoundException("Unable to find information about power transformer with id № " + id);
+            throw new InformationNotFoundException("Unable to find information about power transformer with id № " + highVoltInformationId);
         }
 
         float productionHallTransformerShortCircuitVoltage = powerTransformersResponseDTO.getShortCircuitVoltage();
@@ -64,8 +64,7 @@ public class HighVoltCalculation {
                 (100 * productionHallTransformerFullPower / 1000)*100)/100.0F;
 
 
-        float reactiveResistanceAtPointK1 = Math.round(inductiveImpedanceAreasList.stream()
-                .map(InductiveImpedanceAreas::getInductiveResistance)
+        float reactiveResistanceAtPointK1 = Math.round(inductiveResistanceList.stream()
                 .reduce(Float::sum)
                 .get() *100)/100.0F; //  (x_∑k1 = x_1 + ... + x_4)
 
@@ -86,24 +85,23 @@ public class HighVoltCalculation {
         float ratedPowerTransformerCurrent = Math.round(productionHallTransformerFullPower /
                 (ratedVoltageOfHigherVoltageWindingOfTransformer * Math.sqrt(3)) *100)/100.0F;
 
-        List<InductiveImpedanceAreas> inductiveImpedanceAreasList2 = new ArrayList<>();
-        for (InductiveImpedanceAreas inductiveImpedanceAreas : inductiveImpedanceAreasList) {
-            InductiveImpedanceAreas inductiveImpedanceAreas1 = new InductiveImpedanceAreas();
-            inductiveImpedanceAreas1.setInductiveResistance(inductiveImpedanceAreas.getInductiveResistance());
-            inductiveImpedanceAreasList2.add(inductiveImpedanceAreas1);
+        List<InductiveImpedanceAreas> inductiveImpedanceAreasList = new ArrayList<>();
+        for (Float f : inductiveResistanceList) {
+            inductiveImpedanceAreasList.add(new InductiveImpedanceAreas(f));
         }
 
-        return new HighVoltInformation(id, highVoltageAirLineInductiveResistance, highVoltageCableLineInductiveResistance, highVoltageCableLineActiveResistance,
+
+        return new HighVoltInformation(highVoltInformationId, highVoltageAirLineInductiveResistance, highVoltageCableLineInductiveResistance, highVoltageCableLineActiveResistance,
                 surgeCoefficient, economicCurrentDensity, fixedTime, coefficientTakingEmittedHeatDifference, productionHallTransformerFullPower, baseVoltage,
                 baseFullPower, relativeBaselineUnrestrictedPowerResistance, highVoltageAirLineLength, headTransformerFullPower, shortCircuitVoltage, cableLineLength,
                 ratedVoltageOfHigherVoltageWindingOfTransformer, relativeBasisResistance, powerLineRelativeResistance, firstTransformerRelativeReactiveResistance,
                 cableLineRelativeReactiveResistance, secondTransformerRelativeReactiveResistance, reactiveResistanceAtPointK1, baseCurrentAtPointK1,
                 fullResistanceAtPointK1, shortCircuitCurrentAtPointK1, surgeCurrentAtPointK1, shortCircuitPowerAtPointK1, ratedPowerTransformerCurrent,
-                inductiveImpedanceAreasList2 );
+                inductiveImpedanceAreasList );
 
     }
 
-    public HighVoltCablesSelection forChooseHighVoltCable(HighVoltInformation highVoltInformation) {
+    public HighVoltCablesSelection createHighVoltCablesSelectionInformationResponse(HighVoltInformation highVoltInformation) {
         short id = highVoltInformation.getHighVoltInformationId();
         float ratedPowerTransformerCurrent = highVoltInformation.getRatedPowerTransformerCurrent();
         float shortCircuitCurrentAtPointK1 = highVoltInformation.getShortCircuitCurrentAtPointK1();
@@ -122,10 +120,10 @@ public class HighVoltCalculation {
         }
     }
 
-    public HighVoltCables createNewHighVoltCable(short id, String cableType, HighVoltInformationRepository highVoltInformationRepository){
-        boolean present = highVoltInformationRepository.existsById(id);
-        if(present){
-            return new HighVoltCables(id,cableType);
+    public HighVoltCables createNewHighVoltCable(short highVoltInformationId, String cableType, HighVoltInformationRepository highVoltInformationRepository){
+
+        if(highVoltInformationRepository.existsById(highVoltInformationId)){
+            return new HighVoltCables(highVoltInformationId,cableType);
         }else {
             throw new InformationNotFoundException("Unable to find high volt information. Check the availability of the calculation.");
         }

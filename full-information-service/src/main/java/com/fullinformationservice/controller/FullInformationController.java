@@ -23,7 +23,7 @@ public class FullInformationController {
     }
 
     @GetMapping("/getAllInformation")
-    public FullInformationResponseDTO getAll(){
+    public FullInformationResponseDTO getAllFullInformation(){
         return fullInformationService.getAllFullInformation();
     }
 
