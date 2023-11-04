@@ -78,13 +78,6 @@ public class ProtectiveEquipmentService {
         }
     }
 
-    public ProtectiveEquipment getProtectiveEquipmentById(short protectiveEquipmentId) {
-        return protectiveEquipmentRepository.findById(protectiveEquipmentId)
-                .orElseThrow(() -> new InformationNotFoundException("Unable to find information about the protected equipment. Check the availability of this equipment."));
-    }
-
-
-
     public List<ProtectiveEquipment> getAllProtectiveEquipment() {
         return protectiveEquipmentRepository.findAll();
     }

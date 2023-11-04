@@ -12,7 +12,7 @@ public interface CompensationDeviceServiceClient {
     @RequestMapping(value = "compensationDevice/create/selectionInformation", method = RequestMethod.PUT)
     void saveCompensationDeviceSelectionInformation(@RequestBody CompensationDeviceSelectionInformationRequestDTO compensationDeviceSelectionInformationRequestDTO);
 
-    @RequestMapping(value = "compensationDevice/delete/{compensationDeviceSelectionId}", method = RequestMethod.PUT)
+    @RequestMapping(value = "compensationDevice/delete/selectionInformation/{compensationDeviceSelectionId}", method = RequestMethod.DELETE)
     void deleteCompensationDeviceSelectionInformationById(@PathVariable("compensationDeviceSelectionId") short compensationDeviceSelectionId);
 
     @RequestMapping(value = "compensationDevice/check/{compensationDeviceSelectionId}", method = RequestMethod.GET)

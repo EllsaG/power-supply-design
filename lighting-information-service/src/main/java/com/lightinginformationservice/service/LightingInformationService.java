@@ -6,7 +6,6 @@ import com.lightinginformationservice.controller.dto.LightingInformationResponse
 import com.lightinginformationservice.controller.dto.LuminaireSelectionResponseDTO;
 import com.lightinginformationservice.entity.LightInformation;
 import com.lightinginformationservice.entity.LuminaireSelection;
-import com.lightinginformationservice.exceptions.InformationNotFoundException;
 import com.lightinginformationservice.repository.LightingInformationRepository;
 import com.lightinginformationservice.repository.LuminaireSelectionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,17 +67,6 @@ public class LightingInformationService {
         luminaireSelectionRepository.deleteById(lightingInformationId);
         return getAllLuminaireSelectionInformation();
 
-    }
-
-
-
-    public LightInformation getLightingInformationById(short lightingInformationId) {
-        return lightingInformationRepository.findById(lightingInformationId)
-                .orElseThrow(() -> new InformationNotFoundException("Unable to find information about lighting with id № " + lightingInformationId));
-    }
-    public LuminaireSelection getLuminaireById(short lightingInformationId) {
-        return luminaireSelectionRepository.findById(lightingInformationId)
-                .orElseThrow(() -> new InformationNotFoundException("Unable to find information about luminaire with id № " + lightingInformationId));
     }
 
     public LightingInformationResponseDTO getAllLightingInformation() {

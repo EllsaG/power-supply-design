@@ -1,6 +1,7 @@
 package com.fullinformationservice.controller;
 
 
+import com.fullinformationservice.controller.dto.FullInformationByIdResponseDTO;
 import com.fullinformationservice.controller.dto.FullInformationMainBusbarRequestDTO;
 import com.fullinformationservice.controller.dto.FullInformationRequestDTO;
 import com.fullinformationservice.controller.dto.FullInformationResponseDTO;
@@ -26,7 +27,10 @@ public class FullInformationController {
     public FullInformationResponseDTO getAllFullInformation(){
         return fullInformationService.getAllFullInformation();
     }
-
+    @GetMapping("/{fullInformationId}")
+    public FullInformationByIdResponseDTO getAFullInformationById(@PathVariable  short fullInformationId){
+        return fullInformationService.getInformationById(fullInformationId);
+    }
     @PutMapping("/create")
     public FullInformationResponseDTO create(@RequestBody FullInformationRequestDTO fullInformationRequestDTO) {
         return fullInformationService.saveNewBusbar(fullInformationRequestDTO.getFullInformationId(),
@@ -61,7 +65,7 @@ public class FullInformationController {
 
     @DeleteMapping("/delete/{fullInformationId}")
     public FullInformationResponseDTO delete(@PathVariable  short fullInformationId){
-        return fullInformationService.deleteFullInformationById(fullInformationId);
+        return fullInformationService.deleteMainBusbarById(fullInformationId);
     }
 
     @GetMapping("/check/{fullInformationId}")

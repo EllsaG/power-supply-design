@@ -2,7 +2,10 @@ package com.lightinginformationservice.entity;
 
 import lombok.*;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 @Getter
 @Setter
 @AllArgsConstructor

@@ -5,6 +5,7 @@ import com.fullinformationservice.entity.FullInformation;
 import com.fullinformationservice.entity.FullStartInformation;
 import com.fullinformationservice.exceptions.InformationAlreadyExistsException;
 import com.fullinformationservice.repository.FullInformationRepository;
+import com.fullinformationservice.rest.StartInformationDTO;
 import com.fullinformationservice.rest.StartInformationResponseDTO;
 import com.fullinformationservice.rest.StartInformationServiceClient;
 
@@ -83,28 +84,30 @@ public class FullInformationCalculation {
 
         List <FullStartInformation> fullStartInformationList = new ArrayList<>();
 
-        for (int i = 0; i < numbersOfEquipments.size(); i++) {
-            StartInformationResponseDTO startInformationById = startInformationServiceClient.getStartInformationById(numbersOfEquipments.get(i));
-            startInformationById.setAmount(numbersAndAmountOfEquipments.get(numbersOfEquipments.get(i)));
+        StartInformationResponseDTO startInformationByIdList = startInformationServiceClient
+                .getStartInformationByIdList(numbersOfEquipments);
 
-            fullStartInformationList.add(getFullStartInformation(numbersAtAmountOfEquipments, i, startInformationById));
+        List<StartInformationDTO> startInformationDTOList = startInformationByIdList.getStartInformationList();
+
+        for (int i = 0; i < numbersOfEquipments.size(); i++) {
+            fullStartInformationList.add(getFullStartInformation(numbersAtAmountOfEquipments, i, startInformationDTOList.get(i)));
         }
         return fullStartInformationList;
     }
 
-    private FullStartInformation getFullStartInformation(List<FullStartInformation> fullStartInformation, int i, StartInformationResponseDTO startInformationById) {
+    private FullStartInformation getFullStartInformation(List<FullStartInformation> fullStartInformation, int i, StartInformationDTO startInformationDTO) {
         FullStartInformation fullStartInformId1 = new FullStartInformation();
         fullStartInformId1.setFullInformationId(fullStartInformation.get(i).getFullInformationId());
         fullStartInformId1.setStartInformationId(fullStartInformation.get(i).getStartInformationId());
-        fullStartInformId1.setName(startInformationById.getName());
-        fullStartInformId1.setActivePowerOfOne(startInformationById.getActivePower());
-        fullStartInformId1.setActivePowerOfGroup(startInformationById.getActivePower() * startInformationById.getAmount());
-        fullStartInformId1.setAmount(startInformationById.getAmount());
-        fullStartInformId1.setKi(startInformationById.getKi());
-        fullStartInformId1.setCosf(startInformationById.getCosf());
-        fullStartInformId1.setTgf(startInformationById.getTgf());
-        fullStartInformId1.setAvgDailyActivePower(startInformationById.getAvgDailyActivePower());
-        fullStartInformId1.setAvgDailyReactivePower(startInformationById.getAvgDailyReactivePower());
+        fullStartInformId1.setName(startInformationDTO.getName());
+        fullStartInformId1.setActivePowerOfOne(startInformationDTO.getActivePower());
+        fullStartInformId1.setActivePowerOfGroup(startInformationDTO.getActivePower() * startInformationDTO.getAmount());
+        fullStartInformId1.setAmount(startInformationDTO.getAmount());
+        fullStartInformId1.setKi(startInformationDTO.getKi());
+        fullStartInformId1.setCosf(startInformationDTO.getCosf());
+        fullStartInformId1.setTgf(startInformationDTO.getTgf());
+        fullStartInformId1.setAvgDailyActivePower(startInformationDTO.getAvgDailyActivePower());
+        fullStartInformId1.setAvgDailyReactivePower(startInformationDTO.getAvgDailyReactivePower());
         return fullStartInformId1;
     }
 

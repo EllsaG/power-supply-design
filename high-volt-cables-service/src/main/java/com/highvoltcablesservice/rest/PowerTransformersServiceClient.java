@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public interface PowerTransformersServiceClient {
 
     @RequestMapping(value = "powerTransformers/{powerTransformersId}", method = RequestMethod.GET)
-    PowerTransformersResponseDTO getPowerTransformersInformationById(@PathVariable("powerTransformersId") short powerTransformersId);
+    PowerTransformerByIdResponseDTO getPowerTransformersInformationById(@PathVariable("powerTransformersId") short powerTransformersId);
 
 
 

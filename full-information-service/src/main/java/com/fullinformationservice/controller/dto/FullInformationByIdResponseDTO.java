@@ -1,18 +1,15 @@
-package com.compensationdevice.rest;
+package com.fullinformationservice.controller.dto;
 
+
+import com.fullinformationservice.entity.FullInformation;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
-public class FullInformationResponseDTO {
-
+public class FullInformationByIdResponseDTO {
 
     FullInformation fullInformation;
-
 }

@@ -1,18 +1,17 @@
-package com.fullinformationservice.rest;
+package com.highvoltcablesservice.rest;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
-
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class StartInformationResponseDTO {
+public class PowerTransformerByIdResponseDTO {
 
-    List<StartInformationDTO> startInformationList;
+    PowerTransformers powerTransformers;
+
 }

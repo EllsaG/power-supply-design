@@ -10,6 +10,6 @@ import lombok.Setter;
 @AllArgsConstructor
 public class PowerTransformerSelectionInformationRequestDTO {
 
-    private short powerTransformereSelectionId;
+    private short powerTransformerSelectionId;
     private float ratedPowerForTransformerSelection;
 }

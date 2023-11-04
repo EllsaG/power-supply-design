@@ -2,12 +2,12 @@ package com.highvoltcablesservice.service;
 
 
 import com.highvoltcablesservice.calculation.HighVoltCalculation;
-import com.highvoltcablesservice.controller.dto.HighVoltInformationResponseDTO;
+import com.highvoltcablesservice.controller.dto.HighVoltCablesResponseDTO;
 import com.highvoltcablesservice.controller.dto.HighVoltCablesSelectionInformationResponseDTO;
+import com.highvoltcablesservice.controller.dto.HighVoltInformationResponseDTO;
 import com.highvoltcablesservice.entity.HighVoltCables;
 import com.highvoltcablesservice.entity.HighVoltCablesSelection;
 import com.highvoltcablesservice.entity.HighVoltInformation;
-import com.highvoltcablesservice.exceptions.InformationNotFoundException;
 import com.highvoltcablesservice.repository.HighVoltCablesRepository;
 import com.highvoltcablesservice.repository.HighVoltCablesSelectionRepository;
 import com.highvoltcablesservice.repository.HighVoltInformationRepository;
@@ -58,11 +58,11 @@ public class HighVoltCablesService {
 
     }
 
-    public HighVoltInformationResponseDTO saveNewHighVoltCable(short id, String cableType) {
+    public HighVoltCablesResponseDTO saveNewHighVoltCable(short id, String cableType) {
         HighVoltCalculation highVoltCalculation = new HighVoltCalculation();
         HighVoltCables newHighVoltCable = highVoltCalculation.createNewHighVoltCable(id, cableType, highVoltInformationRepository);
         highVoltCablesRepository.save(newHighVoltCable);
-        return new HighVoltInformationResponseDTO(getAllHighVoltInformation(), getAllHighVoltCableSelectionInformation());
+        return new HighVoltCablesResponseDTO(getAllHighVoltCables());
     }
 
 
@@ -82,17 +82,17 @@ public class HighVoltCablesService {
 
     }
 
-    public HighVoltInformationResponseDTO updateHighVoltCable(short highVoltInformationId, String cableType) {
+    public HighVoltCablesResponseDTO updateHighVoltCable(short highVoltInformationId, String cableType) {
         deleteHighVoltCableById(highVoltInformationId);
         return saveNewHighVoltCable(highVoltInformationId, cableType);
     }
 
-    public HighVoltCablesSelectionInformationResponseDTO deleteHighVoltCableById(short highVoltInformationId) {
+    public HighVoltCablesResponseDTO deleteHighVoltCableById(short highVoltInformationId) {
         if (highVoltCablesRepository.existsById(highVoltInformationId)){
             highVoltCablesRepository.deleteById(highVoltInformationId);
         }
 
-        return new HighVoltCablesSelectionInformationResponseDTO(getAllHighVoltCableSelectionInformation());
+        return new HighVoltCablesResponseDTO(getAllHighVoltCables());
     }
 
     public HighVoltInformationResponseDTO deleteHighVoltSelectionInformationById(short highVoltInformationId ) {
@@ -121,18 +121,4 @@ public class HighVoltCablesService {
         return highVoltCablesRepository.findAll();
     }
 
-    public HighVoltInformation getHighVoltInformationById(short highVoltInformationId) {
-        return highVoltInformationRepository.findById(highVoltInformationId)
-                .orElseThrow(() -> new InformationNotFoundException("Unable to find information about calculation with id № " + highVoltInformationId));
-    }
-
-    public HighVoltCablesSelection getHighVoltCableSelectionInformationById(short highVoltInformationId) {
-        return highVoltCablesSelectionRepository.findById(highVoltInformationId)
-                .orElseThrow(() -> new InformationNotFoundException("Unable to find  information for cable selection with id № " + highVoltInformationId));
-    }
-
-    public HighVoltCables getHighVoltCableById(short highVoltInformationId) {
-        return highVoltCablesRepository.findById(highVoltInformationId)
-                .orElseThrow(() -> new InformationNotFoundException("Unable to find information about high volt cable with id № " + highVoltInformationId));
-    }
 }

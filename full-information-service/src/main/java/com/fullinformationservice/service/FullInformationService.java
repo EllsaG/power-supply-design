@@ -3,6 +3,7 @@ package com.fullinformationservice.service;
 
 
 import com.fullinformationservice.calculation.FullInformationCalculation;
+import com.fullinformationservice.controller.dto.FullInformationByIdResponseDTO;
 import com.fullinformationservice.controller.dto.FullInformationResponseDTO;
 import com.fullinformationservice.entity.FullInformation;
 import com.fullinformationservice.entity.FullStartInformation;
@@ -13,10 +14,12 @@ import com.fullinformationservice.rest.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 
 @Service
+@Transactional
 public class FullInformationService {
 
     private final FullInformationRepository fullInformationRepository;
@@ -41,10 +44,11 @@ public class FullInformationService {
     public FullInformationResponseDTO saveNewBusbar(short fullInformationId, String nameOfBusbar,
                                                     List<FullStartInformation> numbersAndAmountOfEquipments) {
         FullInformationCalculation fullInformationCalculation = new FullInformationCalculation();
-        FullInformation fullInformation = fullInformationCalculation.calculation(fullInformationRepository,
-                 fullInformationId, nameOfBusbar, numbersAndAmountOfEquipments);
+
         List<FullStartInformation> informationAboutBusbarIncludedEquipment = fullInformationCalculation.
                 getInformationAboutBusbarIncludedEquipment( numbersAndAmountOfEquipments, startInformationServiceClient);
+        FullInformation fullInformation = fullInformationCalculation.calculation(fullInformationRepository,
+                fullInformationId, nameOfBusbar, informationAboutBusbarIncludedEquipment);
 
         fullInformationRepository.save(fullInformation);
         fullStartInformationRepository.saveAll(informationAboutBusbarIncludedEquipment);
@@ -67,31 +71,38 @@ public class FullInformationService {
         return getAllFullInformation();
     }
 
-    public FullInformation getInformationById(short fullInformationId) {
-        return fullInformationRepository.findById(fullInformationId)
-                .orElseThrow(() -> new InformationNotFoundException("Unable to find information about busbar with id № " + fullInformationId));
-    }
-
-    public FullInformationResponseDTO getAllFullInformation() {
-        return new FullInformationResponseDTO(fullInformationRepository.findAll());
-    }
-
     public FullInformationResponseDTO updateBusbar(short fullInformationId, String nameOfBusbar,
                                                    List<FullStartInformation> numbersAndAmountOfEquipments) {
-        powerTransformerSelectionServiceClient.deletePowerTransformerSelectionInformationById(fullInformationId);
+
+        deleteFullInformationById(fullInformationId);
         saveNewBusbar(fullInformationId, nameOfBusbar, numbersAndAmountOfEquipments);
         return getAllFullInformation();
     }
 
     public FullInformationResponseDTO updateMainBusbar(short fullInformationId, String nameOfBusbar,
                                                        List<Short> numbersBusbarsIncludedInMain) {
+        deleteMainBusbarById(fullInformationId);
         saveMainBusbar(fullInformationId, nameOfBusbar, numbersBusbarsIncludedInMain);
         return getAllFullInformation();
     }
+    public FullInformationByIdResponseDTO getInformationById(short fullInformationId) {
+        FullInformation fullInformation = fullInformationRepository.findById(fullInformationId)
+                .orElseThrow(() -> new InformationNotFoundException("Unable to find information about busbar with id № " + fullInformationId));
 
-    public FullInformationResponseDTO deleteFullInformationById(short fullInformationId) {
+        return new FullInformationByIdResponseDTO(fullInformation);
+    }
 
-        fullInformationRepository.deleteById(fullInformationId);
+    public FullInformationResponseDTO getAllFullInformation() {
+        return new FullInformationResponseDTO(fullInformationRepository.findAll(),
+                fullStartInformationRepository.findAll());
+    }
+
+
+
+    public FullInformationResponseDTO deleteMainBusbarById(short fullInformationId) {
+
+        deleteFullInformationById(fullInformationId);
+
         if (compensationDeviceServiceClient.checkAvailability(fullInformationId)) {
             compensationDeviceServiceClient.deleteCompensationDeviceSelectionInformationById(fullInformationId);
         }
@@ -101,6 +112,10 @@ public class FullInformationService {
         return getAllFullInformation();
     }
 
+    public void deleteFullInformationById(short fullInformationId){
+        fullInformationRepository.deleteById(fullInformationId);
+        fullStartInformationRepository.deleteAllByFullInformationId(fullInformationId);
+    }
     public Boolean isAvailable(short fullInformationId) {
         return fullInformationRepository.existsById(fullInformationId);
     }

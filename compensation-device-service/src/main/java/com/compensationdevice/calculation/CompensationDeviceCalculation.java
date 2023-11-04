@@ -27,8 +27,8 @@ public class CompensationDeviceCalculation {
                                                           CompensationDeviceSelectionRepository compensationDeviceSelectionRepository) {
 
 
-        float avgDailyActivePower = fullInformation.getAvgDailyActivePower();
-        float tgfBeforeCompensation = fullInformation.getTgF();
+        float avgDailyActivePower = fullInformation.getFullInformation().getAvgDailyActivePower();
+        float tgfBeforeCompensation = fullInformation.getFullInformation().getTgF();
 
         float tgfActualValueCheck = (tgfBeforeCompensation - powerOfCompensatingDevice
                         / (coefTakingIncreasingCosf * avgDailyActivePower));

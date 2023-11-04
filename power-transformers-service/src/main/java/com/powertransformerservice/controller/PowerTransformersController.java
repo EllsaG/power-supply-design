@@ -1,6 +1,7 @@
 package com.powertransformerservice.controller;
 
 
+import com.powertransformerservice.controller.dto.PowerTransformerByIdResponseDTO;
 import com.powertransformerservice.controller.dto.PowerTransformerSelectionInformationRequestDTO;
 import com.powertransformerservice.controller.dto.PowerTransformersRequestDTO;
 import com.powertransformerservice.controller.dto.PowerTransformersResponseDTO;
@@ -23,6 +24,11 @@ public class PowerTransformersController {
     public PowerTransformersResponseDTO getAll() {
         return new PowerTransformersResponseDTO(powerTransformersService.getAllPowerTransformers(),
                 powerTransformersService.getAllForChoosePowerTransformers());
+    }
+
+    @GetMapping("/{powerTransformerId}")
+    public PowerTransformerByIdResponseDTO getPowerTransformerById(@PathVariable short powerTransformerId) {
+        return powerTransformersService.getPowerTransformerInformationById(powerTransformerId);
     }
 
     @PutMapping("/create/powerTransformer")

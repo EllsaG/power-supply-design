@@ -1,17 +1,10 @@
 package com.highvoltcablesservice.rest;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
+import lombok.Getter;
 
 @Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-public class PowerTransformersResponseDTO {
-
+public class PowerTransformers {
     private short powerTransformersId;
     private String transformerModel;
     private float transformerFullPower;
@@ -22,5 +15,4 @@ public class PowerTransformersResponseDTO {
     private float lowSideVoltage;
     private float shortCircuitLosses;
     private float idleCurrent;
-
 }
