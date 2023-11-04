@@ -1,10 +1,7 @@
 package com.highvoltcablesservice.controller;
 
 
-import com.highvoltcablesservice.controller.dto.HighVoltCablesSelectionInformationRequestDTO;
-import com.highvoltcablesservice.controller.dto.HighVoltCablesSelectionInformationResponseDTO;
-import com.highvoltcablesservice.controller.dto.HighVoltInformationRequestDTO;
-import com.highvoltcablesservice.controller.dto.HighVoltInformationResponseDTO;
+import com.highvoltcablesservice.controller.dto.*;
 import com.highvoltcablesservice.service.HighVoltCablesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -25,9 +22,8 @@ public class HighVoltCableController {
     }
 
     @GetMapping("/getAllInformation")
-    public HighVoltInformationResponseDTO getAllHighVoltCables(){
-        return new HighVoltInformationResponseDTO(highVoltCablesService.getAllHighVoltInformation(),
-                highVoltCablesService.getAllHighVoltCableSelectionInformation());
+    public HighVoltCablesResponseDTO getAllHighVoltCables(){
+        return new HighVoltCablesResponseDTO(highVoltCablesService.getAllHighVoltCables());
     }
 
     @PutMapping("/create/selectionInformation")
@@ -42,7 +38,7 @@ public class HighVoltCableController {
     }
 
     @PutMapping("/create/highVoltCable")
-    public HighVoltInformationResponseDTO createNewHighVoltCable(@RequestBody HighVoltCablesSelectionInformationRequestDTO highVoltCablesSelectionInformationRequestDTO) {
+    public HighVoltCablesResponseDTO createNewHighVoltCable(@RequestBody HighVoltCablesSelectionInformationRequestDTO highVoltCablesSelectionInformationRequestDTO) {
         return highVoltCablesService.saveNewHighVoltCable(
                 highVoltCablesSelectionInformationRequestDTO.getHighVoltCableSelectionId(),
                 highVoltCablesSelectionInformationRequestDTO.getCableType());
@@ -59,14 +55,14 @@ public class HighVoltCableController {
     }
 
     @PutMapping("/update/highVoltCable")
-    public HighVoltInformationResponseDTO updateNewHighVoltCable(@RequestBody HighVoltCablesSelectionInformationRequestDTO highVoltCablesSelectionInformationRequestDTO) {
+    public HighVoltCablesResponseDTO updateHighVoltCable(@RequestBody HighVoltCablesSelectionInformationRequestDTO highVoltCablesSelectionInformationRequestDTO) {
         return highVoltCablesService.updateHighVoltCable(
                 highVoltCablesSelectionInformationRequestDTO.getHighVoltCableSelectionId(),
                 highVoltCablesSelectionInformationRequestDTO.getCableType());
     }
 
     @DeleteMapping("/delete/{highVoltInformationId}")
-    public HighVoltCablesSelectionInformationResponseDTO deleteCableById(@PathVariable short highVoltInformationId){
+    public HighVoltCablesResponseDTO deleteCableById(@PathVariable short highVoltInformationId){
         return highVoltCablesService.deleteHighVoltCableById(highVoltInformationId);
     }
     @DeleteMapping("/delete/selectionInformation/{highVoltInformationId}")

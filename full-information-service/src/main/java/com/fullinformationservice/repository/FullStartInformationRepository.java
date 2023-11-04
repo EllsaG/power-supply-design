@@ -7,4 +7,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface FullStartInformationRepository extends JpaRepository<FullStartInformation,Short> {
 
+     void deleteAllByFullInformationId(short fullInformationId);
+
 }

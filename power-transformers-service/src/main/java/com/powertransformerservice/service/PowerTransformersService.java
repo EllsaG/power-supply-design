@@ -2,6 +2,7 @@ package com.powertransformerservice.service;
 
 
 import com.powertransformerservice.calculation.TransformerSelectionCalculation;
+import com.powertransformerservice.controller.dto.PowerTransformerByIdResponseDTO;
 import com.powertransformerservice.controller.dto.PowerTransformersResponseDTO;
 import com.powertransformerservice.entity.PowerTransformers;
 import com.powertransformerservice.entity.TransformerSelection;
@@ -82,9 +83,10 @@ public class PowerTransformersService {
         }
     }
 
-    public PowerTransformers getPowerTransformerInformationById(short powerTransformerId) {
-        return powerTransformerRepository.findById(powerTransformerId)
-                .orElseThrow(()->new InformationNotFoundException("Unable to find information about power transformer with id № " + powerTransformerId));
+    public PowerTransformerByIdResponseDTO getPowerTransformerInformationById(short powerTransformerId) {
+        PowerTransformers powerTransformers = powerTransformerRepository.findById(powerTransformerId)
+                .orElseThrow(() -> new InformationNotFoundException("Unable to find information about power transformer with id № " + powerTransformerId));
+        return new PowerTransformerByIdResponseDTO(powerTransformers);
     }
 
     public List<PowerTransformers> getAllPowerTransformers() {
@@ -95,7 +97,7 @@ public class PowerTransformersService {
     }
 
     public Boolean isAvailable(short powerTransformersSelectionId) {
-        return powerTransformerRepository.existsById(powerTransformersSelectionId);
+        return transformerSelectionRepository.existsById(powerTransformersSelectionId);
     }
 
 }

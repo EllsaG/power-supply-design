@@ -52,22 +52,22 @@ public class LightingCalculation {
 
         float coef = 1.0F; // coefficient of the relative ratio of suspension height and distance between luminaires (maybe between 0.8 and 1.5)
 
-        float heightOverWorkSurface = productionHallHeight - heightOfWorkSurface - heightLampUnderCeiling;
+        float heightOverWorkSurface = Math.round(productionHallHeight - heightOfWorkSurface - heightLampUnderCeiling) / 100F;
 
-        float distanceBetweenRowsOfLamps = heightOverWorkSurface * coef;
+        float distanceBetweenLampRows = heightOverWorkSurface * coef * 100;
 
-        float distanceBetweenWallAndFirstRowOfLamps = (float) ((double) Math.round(0.25 * distanceBetweenRowsOfLamps * 10) / 10); // coef "0.25" maybe between 0.25 and 0.3
+        float distanceBetweenWallAndFirstRowOfLamps = Math.round(0.25 * distanceBetweenLampRows * 10) / 10F; // coef "0.25" maybe between 0.25 and 0.3
 
         short amountLuminairesPerLength = (short) (Math.floor((productionHallLength -
-                        2 * distanceBetweenWallAndFirstRowOfLamps) / distanceBetweenRowsOfLamps) + 1);
+                        2 * distanceBetweenWallAndFirstRowOfLamps) / distanceBetweenLampRows) + 1);
 
         short amountLuminairesPerWidth = (short) (Math.floor((productionHallWidth -
-                        2 * distanceBetweenWallAndFirstRowOfLamps) / distanceBetweenRowsOfLamps) + 1);
+                        2 * distanceBetweenWallAndFirstRowOfLamps) / distanceBetweenLampRows) + 1);
 
         float lightFlux = (float) Math.ceil((ratedLight * productionHallLength * productionHallWidth * safetyFactor * coefOfLightingIrregularity) /
                 (1 * amountLuminairesPerLength * amountLuminairesPerWidth * coefEfficiencyOfLuminaire));
 
-        return new LuminaireSelection(lightingId, distanceBetweenRowsOfLamps, distanceBetweenWallAndFirstRowOfLamps,
+        return new LuminaireSelection(lightingId, distanceBetweenLampRows, distanceBetweenWallAndFirstRowOfLamps,
                 amountLuminairesPerLength, amountLuminairesPerWidth, lightFlux, productionHallHeight, productionHallWidth, productionHallLength);
 
     }
@@ -75,6 +75,9 @@ public class LightingCalculation {
     public LuminaireSelectionResponseDTO createLuminaireSelectionResponse(LuminaireSelectionRepository luminaireSelectionRepository) {
 
         List<LuminaireSelection> all = luminaireSelectionRepository.findAll();
+        if (all.isEmpty()){
+            return new LuminaireSelectionResponseDTO();
+        }
         LuminaireSelectionResponseDTO luminaireSelectionResponseDTO =
                 new LuminaireSelectionResponseDTO();// min and max light flux at 1, 2, 3 and 4 lamps in the Luminaire
         List<LightFluxAtAmountOfLamps> lightFluxAtAmountOfLamps = new ArrayList<>();

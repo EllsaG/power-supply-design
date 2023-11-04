@@ -6,6 +6,8 @@ import com.startinformationservice.service.StartInformationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 public class StartInformationController {
     private final StartInformationService startInformationService;
@@ -16,22 +18,27 @@ public class StartInformationController {
     }
 
     @GetMapping("/getAllInformation")
-    public StartInformationResponseDTO getAll(){
+    public StartInformationResponseDTO getAllStartInformation(){
         return startInformationService.getAllStartInformation();
+    }
+
+    @GetMapping("/getInformationByIdList")
+    public StartInformationResponseDTO getStartInformationByIdList(@RequestParam(value = "eq") List<Short> idList){
+        return startInformationService.getStartInformationByIdList(idList);
     }
 
     @PutMapping("/create")
     public StartInformationResponseDTO createStartInformation(@RequestBody StartInformationRequestDTO startInformationRequestDTO) {
-        return startInformationService.saveStartInformation(startInformationRequestDTO.getStartInformId(),
-                startInformationRequestDTO.getName(),startInformationRequestDTO.getPower(),
+        return startInformationService.saveStartInformation(startInformationRequestDTO.getStartInformationId(),
+                startInformationRequestDTO.getName(),startInformationRequestDTO.getActivePower(),
                 startInformationRequestDTO.getAmount(), startInformationRequestDTO.getKi(),
                 startInformationRequestDTO.getCosf(), startInformationRequestDTO.getTgf());
     }
 
     @PutMapping("/update")
     public StartInformationResponseDTO updateStartInformation(@RequestBody StartInformationRequestDTO startInformationRequestDTO){
-        return startInformationService.updateStartInformation(startInformationRequestDTO.getStartInformId(),
-                startInformationRequestDTO.getName(),startInformationRequestDTO.getPower(),
+        return startInformationService.updateStartInformation(startInformationRequestDTO.getStartInformationId(),
+                startInformationRequestDTO.getName(),startInformationRequestDTO.getActivePower(),
                 startInformationRequestDTO.getAmount(), startInformationRequestDTO.getKi(),
                 startInformationRequestDTO.getCosf(), startInformationRequestDTO.getTgf());
     }

@@ -7,7 +7,7 @@ import com.highvoltcablesservice.entity.HighVoltInformation;
 import com.highvoltcablesservice.entity.InductiveImpedanceAreas;
 import com.highvoltcablesservice.exceptions.InformationNotFoundException;
 import com.highvoltcablesservice.repository.HighVoltInformationRepository;
-import com.highvoltcablesservice.rest.PowerTransformersResponseDTO;
+import com.highvoltcablesservice.rest.PowerTransformerByIdResponseDTO;
 import com.highvoltcablesservice.rest.PowerTransformersServiceClient;
 
 import java.util.ArrayList;
@@ -37,13 +37,13 @@ public class HighVoltCalculation {
                                                               List<Float> inductiveResistanceList,
                                                               PowerTransformersServiceClient powerTransformersServiceClient) {
 
-        PowerTransformersResponseDTO powerTransformersResponseDTO = powerTransformersServiceClient.getPowerTransformersInformationById(highVoltInformationId);
-        if (powerTransformersResponseDTO == null){
+        PowerTransformerByIdResponseDTO powerTransformerByIdResponseDTO = powerTransformersServiceClient.getPowerTransformersInformationById(highVoltInformationId);
+        if (powerTransformerByIdResponseDTO == null){
             throw new InformationNotFoundException("Unable to find information about power transformer with id № " + highVoltInformationId);
         }
 
-        float productionHallTransformerShortCircuitVoltage = powerTransformersResponseDTO.getShortCircuitVoltage();
-        float productionHallTransformerFullPower = powerTransformersResponseDTO.getTransformerFullPower();
+        float productionHallTransformerShortCircuitVoltage = powerTransformerByIdResponseDTO.getPowerTransformers().getShortCircuitVoltage();
+        float productionHallTransformerFullPower = powerTransformerByIdResponseDTO.getPowerTransformers().getTransformerFullPower();
         float relativeBasisResistance = relativeBaselineUnrestrictedPowerResistance; //relative basis resistance x_c=x_1=0,5
 
         float powerLineRelativeResistance = Math.round(highVoltageAirLineInductiveResistance *

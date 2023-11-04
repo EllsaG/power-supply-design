@@ -12,6 +12,7 @@ import javax.persistence.*;
 @Table(name = "full_start_information")
 public class FullStartInformation {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "full_start_information_id")
     private short fullStartInformationId;
 
@@ -44,20 +45,5 @@ public class FullStartInformation {
         this.amount = amount;
     }
 
-    public FullStartInformation(short fullInformationId, short startInformationId, String name, float activePowerOfOne,
-                                float activePowerOfGroup, short amount, float ki, float cosf, float tgf,
-                                float avgDailyActivePower, float avgDailyReactivePower) {
-        this.fullInformationId = fullInformationId;
-        this.startInformationId = startInformationId;
-        this.name = name;
-        this.activePowerOfOne = activePowerOfOne;
-        this.activePowerOfGroup = activePowerOfGroup;
-        this.amount = amount;
-        this.ki = ki;
-        this.cosf = cosf;
-        this.tgf = tgf;
-        this.avgDailyActivePower = avgDailyActivePower;
-        this.avgDailyReactivePower = avgDailyReactivePower;
-    }
 
 }

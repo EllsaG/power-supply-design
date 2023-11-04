@@ -5,12 +5,12 @@ import lombok.Getter;
 
 @Getter
 public class StartInformationRequestDTO {
-    @JsonProperty("startInformId")
-    private short startInformId;
+    @JsonProperty("startInformationId")
+    private short startInformationId;
     @JsonProperty("name")
     private String name;
-    @JsonProperty("power")
-    private float power;
+    @JsonProperty("activePower")
+    private float activePower;
     @JsonProperty("amount")
     private short amount;
     @JsonProperty("ki")

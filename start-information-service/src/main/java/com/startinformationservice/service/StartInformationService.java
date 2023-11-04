@@ -11,6 +11,10 @@ import com.startinformationservice.rest.ProtectiveEquipmentRequestDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class StartInformationService {
 
@@ -58,9 +62,24 @@ public class StartInformationService {
         }
     }
 
-    public StartInformation getStartInformationById(short startInformationId) {
-        return startInformationRepository.findById(startInformationId)
-                .orElseThrow(() -> new InformationNotFoundException("Unable to find information about equipment with id № " + startInformationId));
+    public StartInformationResponseDTO getStartInformationByIdList(List<Short> idList) {
+
+        List<StartInformation> allById = startInformationRepository.findAllById(idList);
+        List<Short> startInformationIdList = allById.stream()
+                .map(StartInformation::getStartInformationId)
+                .collect(Collectors.toList());
+
+        List<Short> equipmentsIdsNotFound  = new ArrayList<>();
+            for(Short sh:idList){
+                if (!startInformationIdList.contains(sh)){
+                    equipmentsIdsNotFound.add(sh);
+                }
+            }
+        if (startInformationIdList.size() == idList.size()){
+            return new StartInformationResponseDTO(allById);
+        }else {
+            throw new InformationNotFoundException("Information about equipments with id's № "+ equipmentsIdsNotFound + " not founded");
+        }
     }
 
     public Boolean isAvailable(short startInformationId) {

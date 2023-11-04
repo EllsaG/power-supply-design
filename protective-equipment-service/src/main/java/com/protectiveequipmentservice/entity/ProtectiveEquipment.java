@@ -25,7 +25,7 @@ public class ProtectiveEquipment {
     @Column(name = "circuit_breaker_rated_current")
     private float circuitBreakerRatedCurrent;
 
-    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     private LowVoltCables low_volt_cables_id_fk;
 
 }
