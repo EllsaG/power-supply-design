@@ -1,6 +1,5 @@
 rootProject.name = "power-supply-design"
 include("compensation-device-service")
-include("compensation-device-service")
 include("full-information-service")
 include("power-transformers-service")
 include("high-volt-cables-service")
