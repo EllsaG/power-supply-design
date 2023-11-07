@@ -1,0 +1,87 @@
+package com.project.lightinginformationservice.service;
+
+
+import com.project.lightinginformationservice.calculation.LightingCalculation;
+import com.project.lightinginformationservice.controller.dto.LightingInformationResponseDTO;
+import com.project.lightinginformationservice.controller.dto.LuminaireSelectionResponseDTO;
+import com.project.lightinginformationservice.entity.LightInformation;
+import com.project.lightinginformationservice.entity.LuminaireSelection;
+import com.project.lightinginformationservice.repository.LightingInformationRepository;
+import com.project.lightinginformationservice.repository.LuminaireSelectionRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+
+@Service
+public class LightingInformationService {
+
+    private final LightingInformationRepository lightingInformationRepository;
+    private final LuminaireSelectionRepository luminaireSelectionRepository;
+
+    @Autowired
+    public LightingInformationService(LightingInformationRepository lightingInformationRepository,
+                                      LuminaireSelectionRepository luminaireSelectionRepository) {
+        this.lightingInformationRepository = lightingInformationRepository;
+        this.luminaireSelectionRepository = luminaireSelectionRepository;
+    }
+
+    public LuminaireSelectionResponseDTO saveLuminaireSelectionInformation(short lightingInformationId, float heightProductionHall,
+                                                                           float widthProductionHall, float lengthProductionHall) {
+        LightingCalculation lightingCalculation = new LightingCalculation();
+        LuminaireSelection luminaireSelection = lightingCalculation.lightingCalculation(lightingInformationId,
+                heightProductionHall, widthProductionHall, lengthProductionHall, luminaireSelectionRepository);
+        luminaireSelectionRepository.save(luminaireSelection);
+
+        return lightingCalculation.createLuminaireSelectionResponse(luminaireSelectionRepository);
+    }
+
+    public LightingInformationResponseDTO saveLightingInformation(short lightingInformationId, String modelOfLuminaire, String modelOfLamp, float lightFluxOneLamp,
+                                                                  short amountOfLampsInOneLuminaire, float activePowerOneLamp) {
+        LightingCalculation lightingCalculation = new LightingCalculation();
+        LightInformation lightInformation = lightingCalculation.electricCalculation(luminaireSelectionRepository, lightingInformationRepository, lightingInformationId, modelOfLuminaire, modelOfLamp, lightFluxOneLamp, amountOfLampsInOneLuminaire, activePowerOneLamp);
+        lightingInformationRepository.save(lightInformation);
+
+        return getAllLightingInformation();
+    }
+
+    public LightingInformationResponseDTO updateLightingInformation(short lightingInformationId, String modelOfLuminaire, String modelOfLamp, float lightFluxOneLamp,
+                                                                    short amountOfLampsInOneLuminaire, float activePowerOneLamp) {
+        deleteLightingInformationById(lightingInformationId);
+        return saveLightingInformation(lightingInformationId, modelOfLuminaire, modelOfLamp,
+                lightFluxOneLamp, amountOfLampsInOneLuminaire, activePowerOneLamp);
+    }
+
+    public LuminaireSelectionResponseDTO updateLuminaireSelectionInformation(short lightingInformationId, float heightProductionHall,
+                                                                             float widthProductionHall, float lengthProductionHall) {
+        deleteLuminaireById(lightingInformationId);
+        return saveLuminaireSelectionInformation(lightingInformationId, heightProductionHall, widthProductionHall, lengthProductionHall);
+    }
+
+    public LightingInformationResponseDTO deleteLightingInformationById(short lightingInformationId) {
+        lightingInformationRepository.deleteById(lightingInformationId);
+        return getAllLightingInformation();
+
+    }
+
+    public LuminaireSelectionResponseDTO deleteLuminaireById(short lightingInformationId) {
+        luminaireSelectionRepository.deleteById(lightingInformationId);
+        return getAllLuminaireSelectionInformation();
+
+    }
+
+    public LightingInformationResponseDTO getAllLightingInformation() {
+        return new LightingInformationResponseDTO(lightingInformationRepository.findAll());
+    }
+
+    public LuminaireSelectionResponseDTO getAllLuminaireSelectionInformation() {
+        LightingCalculation lightingCalculation = new LightingCalculation();
+        return lightingCalculation.createLuminaireSelectionResponse(luminaireSelectionRepository);
+    }
+
+
+
+
+
+
+
+}

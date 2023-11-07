@@ -1,0 +1,96 @@
+version: '3.5'
+services:
+  config-service:
+    container_name: config-service
+    build: config-service
+    ports:
+      - "8001:8001"
+
+  registry:
+    container_name: registry
+    restart: always
+    build: registry
+    ports:
+      - "8761:8761"
+    depends_on:
+      - config-service
+
+  gateway:
+    container_name: gateway
+    restart: always
+    build: gateway
+    ports:
+      - "8989:8989"
+    depends_on:
+      - config-service
+      - registry
+
+  protective-equipment-service:
+    restart: on-failure
+    container_name: protective-equipment-service
+    build: protective-equipment-service
+    ports:
+      - "8055:8055"
+    depends_on:
+      - config-service
+      - registry
+
+  start-information-service:
+    restart: on-failure
+    container_name: start-information-service
+    build: start-information-service
+    ports:
+      - "8066:8066"
+    depends_on:
+      - config-service
+      - registry
+
+  compensation-device-service:
+    restart: on-failure
+    container_name: compensation-device-service
+    build: compensation-device-service
+    ports:
+      - "8077:8077"
+    depends_on:
+      - config-service
+      - registry
+
+  power-transformers-service:
+    restart: on-failure
+    container_name: power-transformers-service
+    build: power-transformers-service
+    ports:
+      - "8044:8044"
+    depends_on:
+      - config-service
+      - registry
+
+  full-information-service:
+    restart: on-failure
+    container_name: full-information-service
+    build: full-information-service
+    ports:
+      - "8022:8022"
+    depends_on:
+      - config-service
+      - registry
+
+  high-volt-cables-service:
+    restart: on-failure
+    container_name: high-volt-cables-service
+    build: high-volt-cables-service
+    ports:
+      - "8011:8011"
+    depends_on:
+      - config-service
+      - registry
+
+  lighting-information-service:
+    restart: on-failure
+    container_name: lighting-information-service
+    build: lighting-information-service
+    ports:
+      - "8033:8033"
+    depends_on:
+      - config-service
+      - registry

@@ -1,0 +1,35 @@
+package com.project.powertransformerservice.rest;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import javax.persistence.Column;
+
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class FullInformationResponseDTO {
+
+
+    private short fullInformationId;
+    private String busbarName;
+    private short amount;
+    private float avgDailyActivePower;
+    private float avgDailyReactivePower;
+    private short effectiveAmountOfEquipment;
+    private float coefficientMax;
+    private float maxActivePower;
+    private float maxReactivePower;
+    private float maxFullPower;
+    private float maxElectricCurrent;
+    private float activePower;
+    private float cosF;
+    private float tgF;
+    private float ki;
+    private float module;
+
+}
