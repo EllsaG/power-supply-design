@@ -6,15 +6,14 @@ import com.project.startinformationservice.exceptions.InformationAlreadyExistsEx
 import com.project.startinformationservice.repository.StartInformationRepository;
 
 import java.util.List;
-import java.util.Optional;
 
 public class StartInformationCalculation {
 
     public StartInformation createIfDontExist(StartInformationRepository startInformationRepository, short startInformId,
                                               String name, float activePower, short amount, float ki, float cosf, float tgf) {
 
-        Optional<StartInformation> byId = startInformationRepository.findById(startInformId);
-        if (byId.isPresent()) {
+
+        if (startInformationRepository.existsById(startInformId)) {
             throw new InformationAlreadyExistsException("Information about equipment with id № " + startInformId + " is already exists");
         }
 
