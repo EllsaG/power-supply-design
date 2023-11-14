@@ -1,0 +1,1 @@
+insert into protective_equipment_selection values (1, 61.12, 305.6, 70.29, 382);

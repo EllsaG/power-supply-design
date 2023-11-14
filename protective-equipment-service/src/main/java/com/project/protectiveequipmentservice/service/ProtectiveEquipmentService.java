@@ -1,12 +1,11 @@
 package com.project.protectiveequipmentservice.service;
 
-import com.project.protectiveequipmentservice.entity.ProtectiveEquipmentSelection;
-import com.project.protectiveequipmentservice.exeptions.InformationNotFoundException;
-import com.project.protectiveequipmentservice.repository.ProtectiveEquipmentRepository;
-import com.project.protectiveequipmentservice.rest.StartInformationClient;
 import com.project.protectiveequipmentservice.calculation.ProtectiveEquipmentCalculation;
 import com.project.protectiveequipmentservice.controller.dto.ProtectiveEquipmentResponseDTO;
 import com.project.protectiveequipmentservice.entity.ProtectiveEquipment;
+import com.project.protectiveequipmentservice.entity.ProtectiveEquipmentSelection;
+import com.project.protectiveequipmentservice.exeptions.InformationNotFoundException;
+import com.project.protectiveequipmentservice.repository.ProtectiveEquipmentRepository;
 import com.project.protectiveequipmentservice.repository.ProtectiveEquipmentSelectionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,16 +17,15 @@ public class ProtectiveEquipmentService {
 
     private final ProtectiveEquipmentRepository protectiveEquipmentRepository;
     private final ProtectiveEquipmentSelectionRepository protectiveEquipmentSelectionRepository;
-    private final StartInformationClient startInformationClient;
 
     @Autowired
     public ProtectiveEquipmentService(ProtectiveEquipmentRepository protectiveEquipmentRepository,
-                                      ProtectiveEquipmentSelectionRepository protectiveEquipmentSelectionRepository,
-                                      StartInformationClient startInformationClient) {
+                                      ProtectiveEquipmentSelectionRepository protectiveEquipmentSelectionRepository) {
         this.protectiveEquipmentRepository = protectiveEquipmentRepository;
         this.protectiveEquipmentSelectionRepository = protectiveEquipmentSelectionRepository;
-        this.startInformationClient = startInformationClient;
     }
+
+
 
 
 
@@ -36,8 +34,8 @@ public class ProtectiveEquipmentService {
 
         ProtectiveEquipmentCalculation protectiveEquipmentCalculation = new ProtectiveEquipmentCalculation();
         ProtectiveEquipment newProtectiveEquipment = protectiveEquipmentCalculation.createNewProtectiveEquipment(id, nominalCurrentOfThermalRelease,
-                nominalCurrentOfElectromagneticRelease, nominalCurrentOfCircuitBreaker, typeOfCircuitBreaker, cableType,
-                startInformationClient, protectiveEquipmentSelectionRepository);
+                nominalCurrentOfElectromagneticRelease, nominalCurrentOfCircuitBreaker, typeOfCircuitBreaker, cableType
+                , protectiveEquipmentSelectionRepository);
 
         protectiveEquipmentRepository.save(newProtectiveEquipment);
 

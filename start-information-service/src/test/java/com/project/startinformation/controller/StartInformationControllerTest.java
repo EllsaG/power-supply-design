@@ -77,7 +77,7 @@ public class StartInformationControllerTest {
 
 
     @Test
-    public void startInformationServiceTest_checkAvailability() {
+    public void protectiveEquipmentServiceClient_checkAvailability() {
         Mockito.when(protectiveEquipmentServiceClient.checkAvailability(ArgumentMatchers.anyShort())).thenReturn(false);
     }
 
