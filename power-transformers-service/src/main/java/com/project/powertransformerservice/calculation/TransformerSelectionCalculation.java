@@ -7,6 +7,8 @@ import com.project.powertransformerservice.exceptions.IncorrectNumberValueExcept
 import com.project.powertransformerservice.repository.TransformerSelectionRepository;
 import com.project.powertransformerservice.rest.FullInformationResponseDTO;
 
+import java.util.NoSuchElementException;
+
 public class TransformerSelectionCalculation {
 
 
@@ -24,7 +26,7 @@ public class TransformerSelectionCalculation {
                                                        float highSideVoltage, float lowSideVoltage, float shortCircuitLosses, float idleCurrent,
                                                        FullInformationResponseDTO fullInformationById, TransformerSelectionRepository transformerSelectionRepository) {
 
-        TransformerSelection transformerSelection = transformerSelectionRepository.findById(id).get();
+        TransformerSelection transformerSelection = transformerSelectionRepository.findById(id).orElseThrow(() -> new NoSuchElementException("No value present"));
 
         float maxFullPower = fullInformationById.getMaxFullPower();
         float coefOfTransformerLoad = Math.round(maxFullPower / fullPowerOfTransformer * 100.0)/100.0F;

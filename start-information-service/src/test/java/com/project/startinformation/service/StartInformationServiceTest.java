@@ -4,8 +4,6 @@ import com.project.startinformationservice.calculation.StartInformationCalculati
 import com.project.startinformationservice.entity.StartInformation;
 import com.project.startinformationservice.exceptions.InformationNotFoundException;
 import com.project.startinformationservice.repository.StartInformationRepository;
-import com.project.startinformationservice.rest.ProtectiveEquipmentServiceClient;
-
 import com.project.startinformationservice.service.StartInformationService;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
