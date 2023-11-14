@@ -6,7 +6,6 @@ import com.project.protectiveequipmentservice.entity.ProtectiveEquipment;
 import com.project.protectiveequipmentservice.entity.ProtectiveEquipmentSelection;
 import com.project.protectiveequipmentservice.exeptions.InformationNotFoundException;
 import com.project.protectiveequipmentservice.repository.ProtectiveEquipmentSelectionRepository;
-import com.project.protectiveequipmentservice.rest.StartInformationClient;
 
 public class ProtectiveEquipmentCalculation {
 
@@ -29,15 +28,12 @@ public class ProtectiveEquipmentCalculation {
 
 
     public ProtectiveEquipment createNewProtectiveEquipment(short id, float nominalCurrentOfThermalRelease, float nominalCurrentOfElectromagneticRelease,
-                                                            float nominalCurrentOfCircuitBreaker, String typeOfCircuitBreaker, String cableType, StartInformationClient startInformationClient,
+                                                            float nominalCurrentOfCircuitBreaker, String typeOfCircuitBreaker, String cableType,
                                                             ProtectiveEquipmentSelectionRepository protectiveEquipmentSelectionRepository) {
 
-        if (!startInformationClient.checkAvailability(id)){
-            throw new InformationNotFoundException("Unable to find information about the protected equipment. Check the availability of this equipment.");
-        }
 
         protectiveEquipmentSelectionRepository.findById(id)
-                .orElseThrow(() -> new InformationNotFoundException("Unable to find information about the protected equipment. Check the availability of this equipment."));
+                .orElseThrow(() -> new InformationNotFoundException("Unable to find information about protected equipment. Check the availability of this equipment."));
 
         return new ProtectiveEquipment(id, typeOfCircuitBreaker, nominalCurrentOfThermalRelease, nominalCurrentOfElectromagneticRelease,
                 nominalCurrentOfCircuitBreaker, new LowVoltCables(cableType));
