@@ -26,6 +26,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.nio.charset.StandardCharsets;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -70,8 +71,8 @@ public class StartInformationControllerTest {
         StartInformation startInformation = startInformationResponseDTO.getStartInformationList().get(0);
 
 
-        Assertions.assertEquals(byId.get().getAvgDailyActivePower(),  startInformation.getAvgDailyActivePower());
-        Assertions.assertEquals(byId.get().getAvgDailyReactivePower(),  startInformation.getAvgDailyReactivePower());
+        Assertions.assertEquals(byId.orElseThrow(() -> new NoSuchElementException("No value present")).getAvgDailyActivePower(),  startInformation.getAvgDailyActivePower());
+        Assertions.assertEquals(byId.orElseThrow(() -> new NoSuchElementException("No value present")).getAvgDailyReactivePower(),  startInformation.getAvgDailyReactivePower());
     }
 
 

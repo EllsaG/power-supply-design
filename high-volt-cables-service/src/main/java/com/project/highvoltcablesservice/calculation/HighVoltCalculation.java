@@ -12,6 +12,7 @@ import com.project.highvoltcablesservice.rest.PowerTransformersServiceClient;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 public class HighVoltCalculation {
 
@@ -66,7 +67,7 @@ public class HighVoltCalculation {
 
         float reactiveResistanceAtPointK1 = Math.round(inductiveResistanceList.stream()
                 .reduce(Float::sum)
-                .get() *100)/100.0F; //  (x_∑k1 = x_1 + ... + x_4)
+                .orElseThrow(() -> new NoSuchElementException("No value present")) *100)/100.0F; //  (x_∑k1 = x_1 + ... + x_4)
 
         float baseCurrentAtPointK1 = Math.round(baseFullPower / (Math.sqrt(3) * shortCircuitVoltage) *100)/100.0F;
 

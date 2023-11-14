@@ -26,6 +26,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.nio.charset.StandardCharsets;
+import java.util.NoSuchElementException;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -66,7 +67,7 @@ public class ProtectiveEquipmentControllerTest {
                         .isOk())
                 .andReturn();
 
-        ProtectiveEquipment byId = protectiveEquipmentRepository.findById((short) 1).get();
+        ProtectiveEquipment byId = protectiveEquipmentRepository.findById((short) 1).orElseThrow(() -> new NoSuchElementException("No value present"));
         String body = mvcResult.getResponse().getContentAsString(StandardCharsets.UTF_8);
         ObjectMapper objectMapper = new ObjectMapper();
         ProtectiveEquipmentResponseDTO protectiveEquipmentResponseDTO = objectMapper
@@ -96,7 +97,7 @@ public class ProtectiveEquipmentControllerTest {
                         .isOk())
                 .andReturn();
 
-        ProtectiveEquipmentSelection byId = protectiveEquipmentSelectionRepository.findById((short) 1).get();
+        ProtectiveEquipmentSelection byId = protectiveEquipmentSelectionRepository.findById((short) 1).orElseThrow(() -> new NoSuchElementException("No value present"));
 
         Assertions.assertEquals(305.6F, byId.getEquipmentStartingCurrent());
         Assertions.assertEquals(61.12F, byId.getEquipmentRatedCurrent());

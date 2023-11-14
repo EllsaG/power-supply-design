@@ -58,10 +58,6 @@ public class CompensationDeviceService {
         return saveCompensationDevice(compensationDeviceId, nameOfCompensationDevice, powerOfCompensatingDevice);
     }
 
-    public void updateCompensationDeviceSelectionInformation(short compensationDeviceId, float avgDailyActivePower, float tgfBeforeCompensation) {
-        deleteCompensationDeviceSelectionInformationById(compensationDeviceId);
-         saveCompensationDeviceSelectionInformation(compensationDeviceId, avgDailyActivePower, tgfBeforeCompensation);
-    }
     public CompensationDeviceResponseDTO deleteCompensationDeviceById(short compensationDeviceId) {
         compensationDeviceRepository.deleteById(compensationDeviceId);
         return new CompensationDeviceResponseDTO(getAllCompensationDevices(), getAllCompensationDevicesSelectionInformation());
