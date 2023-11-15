@@ -100,7 +100,7 @@ public class LightingCalculation {
     }
 
 
-    public LightInformation electricCalculation(LuminaireSelectionRepository luminaireSelectionRepository,
+    public LightInformation electricCalculation(LuminaireSelection luminaireSelection,
                                                 LightingInformationRepository lightingInformationRepository, short lightingId, String modelOfLuminaire,
                                                 String modelOfLamp, float lightFluxOneLamp, short amountOfLampsInOneLuminaire, float activePowerOneLamp) {
 
@@ -117,12 +117,12 @@ public class LightingCalculation {
         final float cosf = 0.95F;
         final float tgf = 0.33F;
 
-        List<LuminaireSelection> all = luminaireSelectionRepository.findAll();
 
-        float distanceBetweenRowsOfLamps = all.get(0).getDistanceBetweenLampRows();
-        float distanceBetweenWallAndFirstRowOfLamps = all.get(0).getDistanceBetweenWallAndFirstLampRow();
-        short amountLuminairesPerLength = all.get(0).getAmountLuminairesPerLength();
-        short amountLuminairesPerWidth = all.get(0).getAmountLuminairesPerWidth();
+
+        float distanceBetweenRowsOfLamps = luminaireSelection.getDistanceBetweenLampRows();
+        float distanceBetweenWallAndFirstRowOfLamps = luminaireSelection.getDistanceBetweenWallAndFirstLampRow();
+        short amountLuminairesPerLength = luminaireSelection.getAmountLuminairesPerLength();
+        short amountLuminairesPerWidth = luminaireSelection.getAmountLuminairesPerWidth();
 
 
         short amountOfLuminaires = (short) (amountLuminairesPerLength * amountLuminairesPerWidth);
