@@ -11,6 +11,8 @@ import com.project.lightinginformationservice.repository.LuminaireSelectionRepos
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.NoSuchElementException;
+
 
 @Service
 public class LightingInformationService {
@@ -30,6 +32,7 @@ public class LightingInformationService {
         LightingCalculation lightingCalculation = new LightingCalculation();
         LuminaireSelection luminaireSelection = lightingCalculation.lightingCalculation(lightingInformationId,
                 heightProductionHall, widthProductionHall, lengthProductionHall, luminaireSelectionRepository);
+
         luminaireSelectionRepository.save(luminaireSelection);
 
         return lightingCalculation.createLuminaireSelectionResponse(luminaireSelectionRepository);
@@ -38,7 +41,13 @@ public class LightingInformationService {
     public LightingInformationResponseDTO saveLightingInformation(short lightingInformationId, String modelOfLuminaire, String modelOfLamp, float lightFluxOneLamp,
                                                                   short amountOfLampsInOneLuminaire, float activePowerOneLamp) {
         LightingCalculation lightingCalculation = new LightingCalculation();
-        LightInformation lightInformation = lightingCalculation.electricCalculation(luminaireSelectionRepository, lightingInformationRepository, lightingInformationId, modelOfLuminaire, modelOfLamp, lightFluxOneLamp, amountOfLampsInOneLuminaire, activePowerOneLamp);
+        LuminaireSelection luminaireSelection = luminaireSelectionRepository.findById(lightingInformationId)
+                .orElseThrow(() -> new NoSuchElementException("No value present"));
+
+        LightInformation lightInformation = lightingCalculation.electricCalculation(luminaireSelection,
+                lightingInformationRepository, lightingInformationId, modelOfLuminaire, modelOfLamp,
+                lightFluxOneLamp, amountOfLampsInOneLuminaire, activePowerOneLamp);
+
         lightingInformationRepository.save(lightInformation);
 
         return getAllLightingInformation();
