@@ -58,24 +58,19 @@ public class PowerTransformersController {
     }
 
     @DeleteMapping("/delete/protectiveEquipment/{powerTransformerId}")
-    public PowerTransformersResponseDTO deletePowerTransformer(@PathVariable short powerTransformerId){
+    public PowerTransformersResponseDTO deletePowerTransformer(@PathVariable short powerTransformerId) {
         return powerTransformersService.deletePowerTransformerById(powerTransformerId);
     }
 
     @DeleteMapping("/delete/selectionInformation/{powerTransformerSelectionId}")
-    public void deletePowerTransformerSelectionInformationById(@PathVariable short powerTransformerSelectionId){
+    public void deletePowerTransformerSelectionInformationById(@PathVariable short powerTransformerSelectionId) {
         powerTransformersService.deletePowerTransformerSelectionInformationById(powerTransformerSelectionId);
     }
 
     @GetMapping("/check/{powerTransformerSelectionId}")
-    public Boolean checkAvailability(@PathVariable short powerTransformerSelectionId){
+    public Boolean checkAvailability(@PathVariable short powerTransformerSelectionId) {
         return powerTransformersService.isAvailable(powerTransformerSelectionId);
     }
-
-
-
-
-
 
 
 }

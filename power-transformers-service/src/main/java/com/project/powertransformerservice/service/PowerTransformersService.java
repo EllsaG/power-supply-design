@@ -6,6 +6,7 @@ import com.project.powertransformerservice.controller.dto.PowerTransformerByIdRe
 import com.project.powertransformerservice.controller.dto.PowerTransformersResponseDTO;
 import com.project.powertransformerservice.entity.PowerTransformers;
 import com.project.powertransformerservice.entity.TransformerSelection;
+import com.project.powertransformerservice.exceptions.InformationAlreadyExistsException;
 import com.project.powertransformerservice.exceptions.InformationNotFoundException;
 import com.project.powertransformerservice.repository.PowerTransformerRepository;
 import com.project.powertransformerservice.repository.TransformerSelectionRepository;
@@ -36,11 +37,14 @@ public class PowerTransformersService {
                                                              float shortCircuitVoltage, float idleLossesOfTransformer, float highSideVoltage,
                                                              float lowSideVoltage, float shortCircuitLosses, float idleCurrent) {
 
+        if (powerTransformerRepository.existsById(powerTransformerId)) {
+            throw new InformationAlreadyExistsException("Information about equipment with id № " + powerTransformerId + " is already exists");
+        }
 
         TransformerSelectionCalculation transformerSelectionCalculation = new TransformerSelectionCalculation();
         FullInformationResponseDTO fullInformationById = fullInformationServiceClient.getFullInformationById(powerTransformerId);
         PowerTransformers newTransformer = transformerSelectionCalculation.createNewPowerTransformer(powerTransformerId, modelOfTransformer, fullPowerOfTransformer,
-                shortCircuitVoltage, idleLossesOfTransformer,highSideVoltage, lowSideVoltage, shortCircuitLosses, idleCurrent,
+                shortCircuitVoltage, idleLossesOfTransformer, highSideVoltage, lowSideVoltage, shortCircuitLosses, idleCurrent,
                 fullInformationById, transformerSelectionRepository);
 
         powerTransformerRepository.save(newTransformer);
@@ -49,8 +53,11 @@ public class PowerTransformersService {
 
     }
 
-    public void savePowerTransformerSelectionInformation( short powerTransformereSelectionId,
-                                                          float maxFullPower) {
+    public void savePowerTransformerSelectionInformation(short powerTransformereSelectionId, float maxFullPower) {
+
+        if (transformerSelectionRepository.existsById(powerTransformereSelectionId)) {
+            throw new InformationAlreadyExistsException("Information about equipment with id № " + powerTransformereSelectionId + " is already exists");
+        }
 
         TransformerSelectionCalculation transformerSelectionCalculation = new TransformerSelectionCalculation();
         TransformerSelection powerTransformerSelectionInformation = transformerSelectionCalculation
@@ -63,14 +70,14 @@ public class PowerTransformersService {
                                                                float shortCircuitVoltage, float idleLossesOfTransformer, float highSideVoltage,
                                                                float lowSideVoltage, float shortCircuitLosses, float idleCurrent) {
         deletePowerTransformerById(powerTransformerId);
-        return savePowerTransformer(powerTransformerId, modelOfTransformer, fullPowerOfTransformer,shortCircuitVoltage,
-                idleLossesOfTransformer,highSideVoltage, lowSideVoltage, shortCircuitLosses, idleCurrent);
+        return savePowerTransformer(powerTransformerId, modelOfTransformer, fullPowerOfTransformer, shortCircuitVoltage,
+                idleLossesOfTransformer, highSideVoltage, lowSideVoltage, shortCircuitLosses, idleCurrent);
     }
 
     public PowerTransformersResponseDTO deletePowerTransformerById(short powerTransformerId) {
-        if (powerTransformerRepository.existsById(powerTransformerId)){
+        if (powerTransformerRepository.existsById(powerTransformerId)) {
             powerTransformerRepository.deleteById(powerTransformerId);
-        }else {
+        } else {
             throw new InformationNotFoundException("Unable to find information about the power transformer. Check the availability of this equipment.");
         }
 
@@ -78,7 +85,7 @@ public class PowerTransformersService {
     }
 
     public void deletePowerTransformerSelectionInformationById(short powerTransformerId) {
-        if (transformerSelectionRepository.existsById(powerTransformerId)){
+        if (transformerSelectionRepository.existsById(powerTransformerId)) {
             transformerSelectionRepository.deleteById(powerTransformerId);
         }
     }
@@ -92,6 +99,7 @@ public class PowerTransformersService {
     public List<PowerTransformers> getAllPowerTransformers() {
         return powerTransformerRepository.findAll();
     }
+
     public List<TransformerSelection> getAllForChoosePowerTransformers() {
         return transformerSelectionRepository.findAll();
     }
