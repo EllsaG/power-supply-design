@@ -21,7 +21,7 @@ public class CompensationDeviceController {
 
 
     @GetMapping("/getAllInformation")
-    public CompensationDeviceResponseDTO getAll(){
+    public CompensationDeviceResponseDTO getAllInformation(){
         return new CompensationDeviceResponseDTO(compensationDeviceService.getAllCompensationDevices(),
                 compensationDeviceService.getAllCompensationDevicesSelectionInformation());
     }
