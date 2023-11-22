@@ -44,12 +44,12 @@ public class StartInformationController {
     }
 
     @DeleteMapping("/delete/{startInformationId}")
-    public StartInformationResponseDTO deleteStartInformation(@PathVariable short startInformationId){
+    public StartInformationResponseDTO deleteStartInformationById(@PathVariable short startInformationId){
         startInformationService.deleteStartInformationById(startInformationId);
         return startInformationService.getAllStartInformation();
     }
 
-    @GetMapping("/{startInformationId}")
+    @GetMapping("/check/{startInformationId}")
     public Boolean checkAvailability(@PathVariable short startInformationId){
         return startInformationService.isAvailable(startInformationId);
     }
