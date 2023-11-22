@@ -7,6 +7,7 @@ import com.project.fullinformationservice.controller.dto.FullInformationByIdResp
 import com.project.fullinformationservice.controller.dto.FullInformationResponseDTO;
 import com.project.fullinformationservice.entity.FullInformation;
 import com.project.fullinformationservice.entity.FullStartInformation;
+import com.project.fullinformationservice.exceptions.InformationAlreadyExistsException;
 import com.project.fullinformationservice.exceptions.InformationNotFoundException;
 import com.project.fullinformationservice.repository.FullInformationRepository;
 import com.project.fullinformationservice.repository.FullStartInformationRepository;
@@ -43,12 +44,18 @@ public class FullInformationService {
 
     public FullInformationResponseDTO saveNewBusbar(short fullInformationId, String nameOfBusbar,
                                                     List<FullStartInformation> numbersAndAmountOfEquipments) {
+
+        if (fullInformationRepository.existsById(fullInformationId)) {
+            throw new InformationAlreadyExistsException("Information about busbar with id № " + fullInformationId + " is already exists");
+        }
+
         FullInformationCalculation fullInformationCalculation = new FullInformationCalculation();
 
         List<FullStartInformation> informationAboutBusbarIncludedEquipment = fullInformationCalculation.
                 getInformationAboutBusbarIncludedEquipment( numbersAndAmountOfEquipments, startInformationServiceClient);
-        FullInformation fullInformation = fullInformationCalculation.calculation(fullInformationRepository,
-                fullInformationId, nameOfBusbar, informationAboutBusbarIncludedEquipment);
+
+        FullInformation fullInformation = fullInformationCalculation.calculationNewBusbar(fullInformationId,
+                nameOfBusbar, informationAboutBusbarIncludedEquipment);
 
         fullInformationRepository.save(fullInformation);
         fullStartInformationRepository.saveAll(informationAboutBusbarIncludedEquipment);
@@ -58,9 +65,18 @@ public class FullInformationService {
 
     public FullInformationResponseDTO saveMainBusbar(short fullInformationId, String nameOfBusbar,
                                                      List<Short> numbersBusbarsIncludedInMain) {
+
+        if (fullInformationRepository.existsById(fullInformationId)) {
+            throw new InformationAlreadyExistsException("Information about busbar with id № " + fullInformationId + " is already exists");
+        }
+        List<FullStartInformation> allEquipmentsActivePowerList = fullStartInformationRepository
+                .findByFullInformationIdIn(numbersBusbarsIncludedInMain);
+
+        List<FullInformation> fullInformationList = fullInformationRepository.findAllById(numbersBusbarsIncludedInMain);
+
         FullInformationCalculation fullInformationCalculation = new FullInformationCalculation();
-        FullInformation fullInformation = fullInformationCalculation.calculationMainBusbar(fullInformationRepository,
-                fullInformationId, nameOfBusbar, numbersBusbarsIncludedInMain);
+        FullInformation fullInformation = fullInformationCalculation.calculationMainBusbar(fullInformationList,
+                fullInformationId, nameOfBusbar, allEquipmentsActivePowerList);
 
         compensationDeviceServiceClient.saveCompensationDeviceSelectionInformation(
                 new CompensationDeviceSelectionInformationRequestDTO(fullInformationId, fullInformation.getAvgDailyActivePower(), fullInformation.getTgF()));

@@ -32,7 +32,7 @@ public class FullInformationController {
         return fullInformationService.getInformationById(fullInformationId);
     }
     @PutMapping("/create")
-    public FullInformationResponseDTO create(@RequestBody FullInformationRequestDTO fullInformationRequestDTO) {
+    public FullInformationResponseDTO createNewBusbar(@RequestBody FullInformationRequestDTO fullInformationRequestDTO) {
         return fullInformationService.saveNewBusbar(fullInformationRequestDTO.getFullInformationId(),
                 fullInformationRequestDTO.getNameOfBusbar(),
                 fullInformationRequestDTO.getFullStartInformId().stream()
@@ -64,7 +64,7 @@ public class FullInformationController {
     }
 
     @DeleteMapping("/delete/{fullInformationId}")
-    public FullInformationResponseDTO delete(@PathVariable  short fullInformationId){
+    public FullInformationResponseDTO deleteBusbar(@PathVariable  short fullInformationId){
         return fullInformationService.deleteMainBusbarById(fullInformationId);
     }
 

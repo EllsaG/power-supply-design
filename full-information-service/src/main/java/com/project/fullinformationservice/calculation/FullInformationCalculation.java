@@ -3,8 +3,6 @@ package com.project.fullinformationservice.calculation;
 
 import com.project.fullinformationservice.entity.FullInformation;
 import com.project.fullinformationservice.entity.FullStartInformation;
-import com.project.fullinformationservice.exceptions.InformationAlreadyExistsException;
-import com.project.fullinformationservice.repository.FullInformationRepository;
 import com.project.fullinformationservice.rest.StartInformationDTO;
 import com.project.fullinformationservice.rest.StartInformationResponseDTO;
 import com.project.fullinformationservice.rest.StartInformationServiceClient;
@@ -17,16 +15,12 @@ import java.util.stream.Collectors;
 
 public class FullInformationCalculation {
 
-    public FullInformation calculation(FullInformationRepository fullInformationRepository,
-                                       short fullInformationId, String nameOfBusbar, List<FullStartInformation> informationAboutBusbarIncludedEquipment) {
-
-        isExists(fullInformationRepository, fullInformationId);
-
-
+    public FullInformation calculationNewBusbar(short fullInformationId, String nameOfBusbar,
+                                                List<FullStartInformation> informationAboutBusbarIncludedEquipment) {
 
         short amountTotal = informationAboutBusbarIncludedEquipment.stream()
                 .map(FullStartInformation::getAmount)
-                .reduce((a,b)-> (short) (a+b))
+                .reduce((a, b) -> (short) (a + b))
                 .orElseThrow(() -> new NoSuchElementException("No value present")); // amount of equipment in busbar
 
         float activePowerTotal = informationAboutBusbarIncludedEquipment.stream()
@@ -35,55 +29,60 @@ public class FullInformationCalculation {
                 .orElseThrow(() -> new NoSuchElementException("No value present")); // active power of all groups included in the busbar
 
 
-        float avgDailyActivePowerTotal = informationAboutBusbarIncludedEquipment.stream()
-                .map(FullStartInformation::getAvgDailyActivePower)
-                .reduce(Float::sum)
-                .orElseThrow(() -> new NoSuchElementException("No value present")); // average daily active power of all groups included in the busbar
+        float avgDailyActivePowerTotal = Math.round(
+                informationAboutBusbarIncludedEquipment.stream()
+                        .map(FullStartInformation::getAvgDailyActivePower)
+                        .reduce(Float::sum)
+                        .orElseThrow(() -> new NoSuchElementException("No value present"))
+                        * 100.0) / 100.0F; // average daily active power of all groups included in the busbar
 
-        float avgDailyReactivePowerTotal = informationAboutBusbarIncludedEquipment.stream()
-                .map(FullStartInformation::getAvgDailyReactivePower)
-                .reduce(Float::sum)
-                .orElseThrow(() -> new NoSuchElementException("No value present")); // average daily reactive power of all groups included in the busbar
+        float avgDailyReactivePowerTotal = Math.round(
+                informationAboutBusbarIncludedEquipment.stream()
+                        .map(FullStartInformation::getAvgDailyReactivePower)
+                        .reduce(Float::sum)
+                        .orElseThrow(() -> new NoSuchElementException("No value present"))
+                        * 100.0) / 100.0F; // average daily reactive power of all groups included in the busbar
 
+        float module = module(informationAboutBusbarIncludedEquipment.stream()
+                .map(FullStartInformation::getActivePowerOfOne)
+                .collect(Collectors.toList())); // module of the current busbar
 
-        float module = module(informationAboutBusbarIncludedEquipment); // module of the current busbar
+        float kI = (Math.round((avgDailyActivePowerTotal / activePowerTotal) * 100.0) / 100.0F); // utilization factor
 
-        float kI =  (Math.round((avgDailyActivePowerTotal / activePowerTotal) * 100.0) / 100.0F); // utilization factor
+        float tgF = (Math.round((avgDailyReactivePowerTotal / avgDailyActivePowerTotal) * 100.0) / 100.0F); // tgf
 
-        float tgF =  (Math.round((avgDailyReactivePowerTotal / avgDailyActivePowerTotal) * 100.0) / 100.0F); // tgf
-
-        float cosF =  (Math.round(Math.sqrt(1 / (1 + Math.pow(tgF, 2))) * 100.0) / 100.0F); //cosf
+        float cosF = (Math.round(Math.sqrt(1 / (1 + Math.pow(tgF, 2))) * 100.0) / 100.0F); //cosf
 
         short effectiveAmountOfEquipment;// effective amount of equipment
 
-        if(amountTotal>5 && kI>0.2 && module>3) {
+        if (amountTotal > 5 && kI > 0.2 && module > 3) {
             List<Float> list = informationAboutBusbarIncludedEquipment.stream()
                     .map(FullStartInformation::getActivePowerOfOne).collect(Collectors.toList()); // take all "power" from equipment list of the current busbar
             double maxPowerOfOne = list.stream().max(Float::compareTo)
                     .orElseThrow(() -> new NoSuchElementException("No value present"));
-            effectiveAmountOfEquipment = (short) (2*activePowerTotal/maxPowerOfOne);
-        } else if(amountTotal<5 && kI>0.2 && module>3) {
+            effectiveAmountOfEquipment = (short) (2 * activePowerTotal / maxPowerOfOne);
+        } else if (amountTotal < 5 && kI > 0.2 && module > 3) {
             short aShort = informationAboutBusbarIncludedEquipment.stream()
-                    .map((e) -> (short)(Math.pow(e.getActivePowerOfOne(), 2) * e.getAmount()))
-                    .reduce((a,b)-> (short) (a+b))
+                    .map((e) -> (short) (Math.pow(e.getActivePowerOfOne(), 2) * e.getAmount()))
+                    .reduce((a, b) -> (short) (a + b))
                     .orElseThrow(() -> new NoSuchElementException("No value present"));
-            effectiveAmountOfEquipment = (short) (Math.pow(activePowerTotal,2)*aShort);
-        } else{
+            effectiveAmountOfEquipment = (short) (Math.pow(activePowerTotal, 2) * aShort);
+        } else {
             effectiveAmountOfEquipment = amountTotal;
         }
 
         return getFullInformation(fullInformationId, nameOfBusbar, amountTotal, activePowerTotal, avgDailyActivePowerTotal, avgDailyReactivePowerTotal, module, kI, tgF, cosF, effectiveAmountOfEquipment);
     }
 
-    public List <FullStartInformation> getInformationAboutBusbarIncludedEquipment(List<FullStartInformation> numbersAtAmountOfEquipments,
-                                                                                   StartInformationServiceClient startInformationServiceClient) {
+    public List<FullStartInformation> getInformationAboutBusbarIncludedEquipment(List<FullStartInformation> numbersAtAmountOfEquipments,
+                                                                                 StartInformationServiceClient startInformationServiceClient) {
         HashMap<Short, Short> numbersAndAmountOfEquipments = new HashMap<>();
         numbersAtAmountOfEquipments
                 .forEach((e) -> numbersAndAmountOfEquipments.put(e.getStartInformationId(), e.getAmount()));
 
         List<Short> numbersOfEquipments = new ArrayList<>(numbersAndAmountOfEquipments.keySet());
 
-        List <FullStartInformation> fullStartInformationList = new ArrayList<>();
+        List<FullStartInformation> fullStartInformationList = new ArrayList<>();
 
         StartInformationResponseDTO startInformationByIdList = startInformationServiceClient
                 .getStartInformationByIdList(numbersOfEquipments);
@@ -113,45 +112,35 @@ public class FullInformationCalculation {
     }
 
 
-    public FullInformation calculationMainBusbar(FullInformationRepository fullInformationRepository,
-                                                        short id, String nameOfBusbar, List<Short> numbersBusbarsIncludedInMain) {
+    public FullInformation calculationMainBusbar(List<FullInformation> fullInformationList,short id, String nameOfBusbar,
+                                                 List<FullStartInformation> allEquipmentsActivePowerList) {
 
-        isExists(fullInformationRepository, id);
 
-        List<FullInformation> allById = fullInformationRepository.findAllById(numbersBusbarsIncludedInMain);
-
-        short amount = allById.stream()
+        short amount = fullInformationList.stream()
                 .map(FullInformation::getAmount)
-                .reduce((a,b)-> (short) (a+b))
+                .reduce((a, b) -> (short) (a + b))
                 .orElseThrow(() -> new NoSuchElementException("No value present")); // amount of equipment in all busbar
 
-        float powerOfGroup = allById.stream()
+        float powerOfGroup = fullInformationList.stream()
                 .map(FullInformation::getActivePower)
                 .reduce(Float::sum)
                 .orElseThrow(() -> new NoSuchElementException("No value present")); // active power of all groups included in the busbar
 
 
-        float avgDailyActivePower = allById.stream()
+        float avgDailyActivePower = fullInformationList.stream()
                 .map(FullInformation::getAvgDailyActivePower)
                 .reduce(Float::sum)
                 .orElseThrow(() -> new NoSuchElementException("No value present")); // average daily active power of all groups included in the busbar
 
-        float avgDailyReactivePower = allById.stream()
+        float avgDailyReactivePower = fullInformationList.stream()
                 .map(FullInformation::getAvgDailyReactivePower)
                 .reduce(Float::sum)
                 .orElseThrow(() -> new NoSuchElementException("No value present")); // average daily reactive power of all groups included in the busbar
 
-        List<Float> list = allById.stream()
-                .map(FullInformation::getModule).collect(Collectors.toList()); // take all "power" from equipment list of the current busbar
-        float min = list.stream()
-                .min(Float::compareTo)
-                .orElseThrow(() -> new NoSuchElementException("No value present"));
-        float max = list.stream()
-                .max(Float::compareTo)
-                .orElseThrow(() -> new NoSuchElementException("No value present"));
 
-        float module = (float) (Math.round((max / min) * 10.0) / 10.0);  // round to one argument after point
-
+        float module = module(allEquipmentsActivePowerList.stream()
+                .map(FullStartInformation::getActivePowerOfOne)
+                .collect(Collectors.toList())); // module of the current busbar
 
         float kI = (float) (Math.round((avgDailyActivePower / powerOfGroup) * 100.0) / 100.0); // utilization factor
 
@@ -162,27 +151,28 @@ public class FullInformationCalculation {
 
         short effectiveAmountOfEquipment;// effective amount of equipment
 
-        if(amount>5 && kI>0.2 && module>3) {
-            List<Float> list2 = allById.stream()
+        if (amount > 5 && kI > 0.2 && module > 3) {
+            List<Float> list2 = fullInformationList.stream()
                     .map(FullInformation::getActivePower)
                     .collect(Collectors.toList()); // take all "power" from equipment list of the current busbar
             float maxPowerOfOne = list2.stream().max(Float::compareTo).orElseThrow(() -> new NoSuchElementException("No value present"));
-            effectiveAmountOfEquipment = (short) (2*powerOfGroup/maxPowerOfOne);
-        } else if(amount<5 && kI>0.2 && module>3) {
-            float aFloat = allById.stream()
-                    .map((e) -> (float)Math.pow(e.getActivePower(), 2) * e.getAmount())
+            effectiveAmountOfEquipment = (short) (2 * powerOfGroup / maxPowerOfOne);
+        } else if (amount < 5 && kI > 0.2 && module > 3) {
+            float aFloat = fullInformationList.stream()
+                    .map((e) -> (float) Math.pow(e.getActivePower(), 2) * e.getAmount())
                     .reduce(Float::sum)
                     .orElseThrow(() -> new NoSuchElementException("No value present"));
-            effectiveAmountOfEquipment = (short) (Math.pow(powerOfGroup,2)*aFloat);
-        } else{
-            effectiveAmountOfEquipment = allById.stream()
+            effectiveAmountOfEquipment = (short) (Math.pow(powerOfGroup, 2) * aFloat);
+        } else {
+            effectiveAmountOfEquipment = fullInformationList.stream()
                     .map(FullInformation::getAmount)
-                    .reduce((a,b)-> (short) (a+b))
+                    .reduce((a, b) -> (short) (a + b))
                     .orElseThrow(() -> new NoSuchElementException("No value present"));
         }
 
         return getFullInformation(id, nameOfBusbar, amount, powerOfGroup, avgDailyActivePower, avgDailyReactivePower, module, kI, tgF, cosF, effectiveAmountOfEquipment);
     }
+
 
     private FullInformation getFullInformation(short id, String nameOfBusbar, short amount, float powerOfGroup, float avgDailyActivePower, float avgDailyReactivePower, float module, float kI, float tgF, float cosF, short effectiveAmountOfEquipment) {
         float coefficientMax = kMax(kI, amount); // coefficient max of the current busbar
@@ -193,7 +183,7 @@ public class FullInformationCalculation {
         At amount <= 10 the formula need to change (in the future)*/
 
         float maxFullPower = (float) (Math.round(Math.sqrt(Math.pow(maxActivePower, 2) +
-                        Math.pow(maxReactivePower, 2)) * 100.0) / 100.0); // max full power of the current busbar
+                Math.pow(maxReactivePower, 2)) * 100.0) / 100.0); // max full power of the current busbar
 
         float maxElectricCurrent = (float) (Math.round(((maxFullPower * 1000) / (Math.sqrt(3) * 380)) * 100) / 100.0); // max electric current of this busbar
 
@@ -205,17 +195,15 @@ public class FullInformationCalculation {
     }
 
 
-    private float module(List<FullStartInformation> informationAboutBusbarIncludedEquipment) {
-        List<Float> list = informationAboutBusbarIncludedEquipment.stream()
-                .map(FullStartInformation::getActivePowerOfOne)
-                .collect(Collectors.toList()); // take all "power" from equipment list of the current busbar
-        float min = list.stream()
+    private float module(List<Float> allEquipmentsActivePowerList) {
+
+        float min = allEquipmentsActivePowerList.stream()
                 .min(Float::compareTo)
                 .orElseThrow(() -> new NoSuchElementException("No value present"));
-        float max = list.stream()
+        float max = allEquipmentsActivePowerList.stream()
                 .max(Float::compareTo)
                 .orElseThrow(() -> new NoSuchElementException("No value present"));
-        return (float) (Math.round((max / min) * 10.0) / 10.0);  // round to one argument after point
+        return Math.round((max / min) * 10.0) / 10.0F;  // round to one argument after point
     }
 
 
@@ -257,13 +245,6 @@ public class FullInformationCalculation {
         } // use "else" if amount will be more than 160 \
 
         return (float) (Math.round((kMax[b][j]) * 100.0) / 100.0); //  round to two argument after point
-    }
-
-    private void isExists(FullInformationRepository fullInformationRepository, short id){
-        boolean present = fullInformationRepository.findById(id).isPresent();
-        if (present) {
-            throw new InformationAlreadyExistsException("Information about busbar with id № " + id + " is already exists");
-        }
     }
 
 
