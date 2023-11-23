@@ -40,7 +40,7 @@ public class LightingInformationController {
     }
 
     @PutMapping("/create/selectionInformation")
-    public LuminaireSelectionResponseDTO luminariesSelection(@RequestBody LuminaireSelectionRequestDTO luminaireSelectionRequestDTO) {
+    public LuminaireSelectionResponseDTO createLuminariesSelection(@RequestBody LuminaireSelectionRequestDTO luminaireSelectionRequestDTO) {
         return lightingInformationService.saveLuminaireSelectionInformation(luminaireSelectionRequestDTO.getLightingInformationId(),
                 luminaireSelectionRequestDTO.getHeightProductionHall(),
                 luminaireSelectionRequestDTO.getWidthProductionHall(), luminaireSelectionRequestDTO.getLengthProductionHall());
@@ -60,7 +60,6 @@ public class LightingInformationController {
         return lightingInformationService.updateLuminaireSelectionInformation(luminaireSelectionRequestDTO.getLightingInformationId(),
                 luminaireSelectionRequestDTO.getHeightProductionHall(), luminaireSelectionRequestDTO.getWidthProductionHall(),
                 luminaireSelectionRequestDTO.getLengthProductionHall());
-
     }
 
     @DeleteMapping("/delete/{lightingInformationId}")
@@ -72,9 +71,6 @@ public class LightingInformationController {
     public LuminaireSelectionResponseDTO deleteLuminaireById(@PathVariable short lightingInformationId){
         return lightingInformationService.deleteLuminaireById(lightingInformationId);
     }
-
-
-
 
 
 }
