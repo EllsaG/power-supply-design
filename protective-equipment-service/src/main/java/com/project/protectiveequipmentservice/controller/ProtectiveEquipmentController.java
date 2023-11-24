@@ -18,7 +18,7 @@ public class ProtectiveEquipmentController {
     }
 
     @GetMapping("/getAllInformation")
-    public ProtectiveEquipmentResponseDTO getAll() {
+    public ProtectiveEquipmentResponseDTO getAllInformation() {
         ProtectiveEquipmentResponseDTO protectiveEquipmentResponseDTO = new ProtectiveEquipmentResponseDTO();
         protectiveEquipmentResponseDTO.setProtectiveEquipmentList(protectiveEquipmentService.getAllProtectiveEquipment());
         protectiveEquipmentResponseDTO.setProtectiveEquipmentSelectionList(protectiveEquipmentService.getAllProtectiveEquipmentSelectionInformation());
