@@ -45,7 +45,6 @@ dependencies {
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test:2.3.2.RELEASE'
     testImplementation "com.h2database:h2:1.4.199"
-    testImplementation project(path: ':start-information-service')
 }
 
 tasks.test {
