@@ -21,7 +21,7 @@ public class PowerTransformersController {
 
 
     @GetMapping("/getAllInformation")
-    public PowerTransformersResponseDTO getAll() {
+    public PowerTransformersResponseDTO getAllInformation() {
         return new PowerTransformersResponseDTO(powerTransformersService.getAllPowerTransformers(),
                 powerTransformersService.getAllForChoosePowerTransformers());
     }
