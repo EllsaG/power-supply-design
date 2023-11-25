@@ -105,7 +105,7 @@ public class PowerTransformersService {
     }
 
     public Boolean isAvailable(short powerTransformersSelectionId) {
-        return transformerSelectionRepository.existsById(powerTransformersSelectionId);
+        return powerTransformerRepository.existsById(powerTransformersSelectionId);
     }
 
 }
