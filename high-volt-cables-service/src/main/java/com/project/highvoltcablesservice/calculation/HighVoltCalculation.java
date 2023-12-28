@@ -4,13 +4,11 @@ package com.project.highvoltcablesservice.calculation;
 import com.project.highvoltcablesservice.entity.HighVoltCables;
 import com.project.highvoltcablesservice.entity.HighVoltCablesSelection;
 import com.project.highvoltcablesservice.entity.HighVoltInformation;
-import com.project.highvoltcablesservice.entity.InductiveImpedanceAreas;
 import com.project.highvoltcablesservice.exceptions.InformationNotFoundException;
 import com.project.highvoltcablesservice.repository.HighVoltInformationRepository;
 import com.project.highvoltcablesservice.rest.PowerTransformerByIdResponseDTO;
 import com.project.highvoltcablesservice.rest.PowerTransformersServiceClient;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -86,19 +84,13 @@ public class HighVoltCalculation {
         float ratedPowerTransformerCurrent = Math.round(productionHallTransformerFullPower /
                 (ratedVoltageOfHigherVoltageWindingOfTransformer * Math.sqrt(3)) *100)/100.0F;
 
-        List<InductiveImpedanceAreas> inductiveImpedanceAreasList = new ArrayList<>();
-        for (Float f : inductiveResistanceList) {
-            inductiveImpedanceAreasList.add(new InductiveImpedanceAreas(f));
-        }
-
 
         return new HighVoltInformation(highVoltInformationId, highVoltageAirLineInductiveResistance, highVoltageCableLineInductiveResistance, highVoltageCableLineActiveResistance,
                 surgeCoefficient, economicCurrentDensity, fixedTime, coefficientTakingEmittedHeatDifference, productionHallTransformerFullPower, baseVoltage,
                 baseFullPower, relativeBaselineUnrestrictedPowerResistance, highVoltageAirLineLength, headTransformerFullPower, shortCircuitVoltage, cableLineLength,
                 ratedVoltageOfHigherVoltageWindingOfTransformer, relativeBasisResistance, powerLineRelativeResistance, firstTransformerRelativeReactiveResistance,
                 cableLineRelativeReactiveResistance, secondTransformerRelativeReactiveResistance, reactiveResistanceAtPointK1, baseCurrentAtPointK1,
-                fullResistanceAtPointK1, shortCircuitCurrentAtPointK1, surgeCurrentAtPointK1, shortCircuitPowerAtPointK1, ratedPowerTransformerCurrent,
-                inductiveImpedanceAreasList );
+                fullResistanceAtPointK1, shortCircuitCurrentAtPointK1, surgeCurrentAtPointK1, shortCircuitPowerAtPointK1, ratedPowerTransformerCurrent);
 
     }
 

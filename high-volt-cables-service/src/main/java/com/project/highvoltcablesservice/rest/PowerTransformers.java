@@ -1,9 +1,15 @@
 package com.project.highvoltcablesservice.rest;
 
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class PowerTransformers {
     private short powerTransformersId;
     private String transformerModel;
