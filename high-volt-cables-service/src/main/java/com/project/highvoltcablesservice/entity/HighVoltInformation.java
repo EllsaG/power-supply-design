@@ -2,8 +2,10 @@ package com.project.highvoltcablesservice.entity;
 
 import lombok.*;
 
-import javax.persistence.*;
-import java.util.List;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Getter
 @Setter
@@ -74,6 +76,6 @@ public class HighVoltInformation {
     private float shortCircuitPowerAtPointK1;
     @Column(name = "rated_power_transformer_current")
     private float ratedPowerTransformerCurrent;
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<InductiveImpedanceAreas> inductive_impedance_areas_id_fk;
+
 }
+

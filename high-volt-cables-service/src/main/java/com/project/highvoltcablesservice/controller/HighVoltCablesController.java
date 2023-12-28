@@ -6,12 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-public class HighVoltCableController {
+public class HighVoltCablesController {
 
     private final HighVoltCablesService highVoltCablesService;
 
     @Autowired
-    public HighVoltCableController(HighVoltCablesService highVoltCablesService) {
+    public HighVoltCablesController(HighVoltCablesService highVoltCablesService) {
         this.highVoltCablesService = highVoltCablesService;
     }
 

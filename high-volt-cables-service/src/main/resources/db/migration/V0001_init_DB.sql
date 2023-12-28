@@ -46,7 +46,14 @@ create table high_volt_information
     short_circuit_current_at_point_k_1 float4 not null,
     surge_current_at_point_k_1 float4 not null,
     short_circuit_power_at_point_k_1 float4 not null,
-    rated_power_transformer_current float4 not null,
-    inductive_impedance_areas_id_fk int2 not null,
-    FOREIGN KEY (inductive_impedance_areas_id_fk) REFERENCES inductive_impedance_areas(inductive_impedance_areas_id)
+    rated_power_transformer_current float4 not null
+);
+
+create table high_volt_information_inductive_impedance_areas
+(
+    high_volt_information_inductive_impedance_areas_id  int2 primary key,
+    inductive_impedance_areas_id_fk int2,
+    high_volt_information_id_fk int2,
+    FOREIGN KEY (inductive_impedance_areas_id_fk) REFERENCES inductive_impedance_areas(inductive_impedance_areas_id),
+    FOREIGN KEY (high_volt_information_id_fk) REFERENCES high_volt_information(high_volt_information_id)
 );
