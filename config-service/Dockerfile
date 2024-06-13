@@ -1,4 +1,4 @@
-FROM gradle:6.6.1-jdk-alpine as builder
+FROM gradle:6.9.4-jdk-alpine as builder
 
 COPY ./src src/
 COPY ./build.gradle build.gradle
