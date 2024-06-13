@@ -1,0 +1,9 @@
+{
+  "build": {
+    "type": "gradle",
+    "goal": "assemble"
+  },
+  "deploy": {
+    "jarName": "./build/libs/power-supply-design-1.0-SNAPSHOT.jar"
+  }
+}
