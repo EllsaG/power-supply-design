@@ -1,0 +1,9 @@
+{
+  "build": {
+    "type": "gradle",
+    "goal": "assemble"
+  },
+  "deploy": {
+    "jarName": "./build/libs/config-service-1.0-SNAPSHOT.jar"
+  }
+}
